@@ -1,0 +1,282 @@
+
+GccApplication7.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000184  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         000001ec  00800060  00000184  000001f8  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000003e4  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000414  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000078  00000000  00000000  00000450  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   0000098b  00000000  00000000  000004c8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 0000066d  00000000  00000000  00000e53  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000476  00000000  00000000  000014c0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000110  00000000  00000000  00001938  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000490  00000000  00000000  00001a48  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000002e1  00000000  00000000  00001ed8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000080  00000000  00000000  000021b9  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	24 c0       	rjmp	.+72     	; 0x4c <__bad_interrupt>
+   4:	23 c0       	rjmp	.+70     	; 0x4c <__bad_interrupt>
+   6:	22 c0       	rjmp	.+68     	; 0x4c <__bad_interrupt>
+   8:	21 c0       	rjmp	.+66     	; 0x4c <__bad_interrupt>
+   a:	20 c0       	rjmp	.+64     	; 0x4c <__bad_interrupt>
+   c:	1f c0       	rjmp	.+62     	; 0x4c <__bad_interrupt>
+   e:	1e c0       	rjmp	.+60     	; 0x4c <__bad_interrupt>
+  10:	1d c0       	rjmp	.+58     	; 0x4c <__bad_interrupt>
+  12:	1c c0       	rjmp	.+56     	; 0x4c <__bad_interrupt>
+  14:	1b c0       	rjmp	.+54     	; 0x4c <__bad_interrupt>
+  16:	1a c0       	rjmp	.+52     	; 0x4c <__bad_interrupt>
+  18:	19 c0       	rjmp	.+50     	; 0x4c <__bad_interrupt>
+  1a:	18 c0       	rjmp	.+48     	; 0x4c <__bad_interrupt>
+  1c:	17 c0       	rjmp	.+46     	; 0x4c <__bad_interrupt>
+  1e:	16 c0       	rjmp	.+44     	; 0x4c <__bad_interrupt>
+  20:	15 c0       	rjmp	.+42     	; 0x4c <__bad_interrupt>
+  22:	14 c0       	rjmp	.+40     	; 0x4c <__bad_interrupt>
+  24:	13 c0       	rjmp	.+38     	; 0x4c <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+
+00000032 <__do_copy_data>:
+  32:	12 e0       	ldi	r17, 0x02	; 2
+  34:	a0 e6       	ldi	r26, 0x60	; 96
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	e4 e8       	ldi	r30, 0x84	; 132
+  3a:	f1 e0       	ldi	r31, 0x01	; 1
+  3c:	02 c0       	rjmp	.+4      	; 0x42 <__SREG__+0x3>
+  3e:	05 90       	lpm	r0, Z+
+  40:	0d 92       	st	X+, r0
+  42:	ac 34       	cpi	r26, 0x4C	; 76
+  44:	b1 07       	cpc	r27, r17
+  46:	d9 f7       	brne	.-10     	; 0x3e <__SP_H__>
+  48:	7b d0       	rcall	.+246    	; 0x140 <main>
+  4a:	9a c0       	rjmp	.+308    	; 0x180 <_exit>
+
+0000004c <__bad_interrupt>:
+  4c:	d9 cf       	rjmp	.-78     	; 0x0 <__vectors>
+
+0000004e <_Z13SPI_SS_Enablev>:
+	{
+		SPI_Write(0x00);		
+	}
+	PORTB &= ~(1<<DC);
+	SPI_SS_Disable();	
+}
+  4e:	c2 98       	cbi	0x18, 2	; 24
+  50:	08 95       	ret
+
+00000052 <_Z14SPI_SS_Disablev>:
+  52:	c2 9a       	sbi	0x18, 2	; 24
+  54:	08 95       	ret
+
+00000056 <_Z8SPI_Initv>:
+  56:	8f e2       	ldi	r24, 0x2F	; 47
+  58:	87 bb       	out	0x17, r24	; 23
+  5a:	c0 9a       	sbi	0x18, 0	; 24
+  5c:	bc 98       	cbi	0x17, 4	; 23
+  5e:	c2 9a       	sbi	0x18, 2	; 24
+  60:	81 e5       	ldi	r24, 0x51	; 81
+  62:	8d b9       	out	0x0d, r24	; 13
+  64:	08 95       	ret
+
+00000066 <_Z9SPI_Writec>:
+  66:	8f b9       	out	0x0f, r24	; 15
+  68:	77 9b       	sbis	0x0e, 7	; 14
+  6a:	fe cf       	rjmp	.-4      	; 0x68 <_Z9SPI_Writec+0x2>
+  6c:	08 95       	ret
+
+0000006e <_Z10N5110_Cmndc>:
+  6e:	cf 93       	push	r28
+  70:	c8 2f       	mov	r28, r24
+  72:	c1 98       	cbi	0x18, 1	; 24
+  74:	ec df       	rcall	.-40     	; 0x4e <_Z13SPI_SS_Enablev>
+  76:	8c 2f       	mov	r24, r28
+  78:	f6 df       	rcall	.-20     	; 0x66 <_Z9SPI_Writec>
+  7a:	c1 9a       	sbi	0x18, 1	; 24
+  7c:	ea df       	rcall	.-44     	; 0x52 <_Z14SPI_SS_Disablev>
+  7e:	cf 91       	pop	r28
+  80:	08 95       	ret
+
+00000082 <_Z10N5110_DataPc>:
+  82:	ef 92       	push	r14
+  84:	ff 92       	push	r15
+  86:	0f 93       	push	r16
+  88:	1f 93       	push	r17
+  8a:	cf 93       	push	r28
+  8c:	df 93       	push	r29
+  8e:	8c 01       	movw	r16, r24
+  90:	c1 9a       	sbi	0x18, 1	; 24
+  92:	dd df       	rcall	.-70     	; 0x4e <_Z13SPI_SS_Enablev>
+  94:	f8 01       	movw	r30, r16
+  96:	01 90       	ld	r0, Z+
+  98:	00 20       	and	r0, r0
+  9a:	e9 f7       	brne	.-6      	; 0x96 <_Z10N5110_DataPc+0x14>
+  9c:	31 97       	sbiw	r30, 0x01	; 1
+  9e:	e0 1b       	sub	r30, r16
+  a0:	f1 0b       	sbc	r31, r17
+  a2:	1e 16       	cp	r1, r30
+  a4:	1f 06       	cpc	r1, r31
+  a6:	1c f5       	brge	.+70     	; 0xee <_Z10N5110_DataPc+0x6c>
+  a8:	e8 01       	movw	r28, r16
+  aa:	0e 0f       	add	r16, r30
+  ac:	1f 1f       	adc	r17, r31
+  ae:	e1 2c       	mov	r14, r1
+  b0:	f1 2c       	mov	r15, r1
+  b2:	28 81       	ld	r18, Y
+  b4:	30 e0       	ldi	r19, 0x00	; 0
+  b6:	20 52       	subi	r18, 0x20	; 32
+  b8:	31 09       	sbc	r19, r1
+  ba:	f9 01       	movw	r30, r18
+  bc:	ee 0f       	add	r30, r30
+  be:	ff 1f       	adc	r31, r31
+  c0:	ee 0f       	add	r30, r30
+  c2:	ff 1f       	adc	r31, r31
+  c4:	e2 0f       	add	r30, r18
+  c6:	f3 1f       	adc	r31, r19
+  c8:	e5 59       	subi	r30, 0x95	; 149
+  ca:	ff 4f       	sbci	r31, 0xFF	; 255
+  cc:	ee 0d       	add	r30, r14
+  ce:	ff 1d       	adc	r31, r15
+  d0:	80 81       	ld	r24, Z
+  d2:	c9 df       	rcall	.-110    	; 0x66 <_Z9SPI_Writec>
+  d4:	8f ef       	ldi	r24, 0xFF	; 255
+  d6:	e8 1a       	sub	r14, r24
+  d8:	f8 0a       	sbc	r15, r24
+  da:	85 e0       	ldi	r24, 0x05	; 5
+  dc:	e8 16       	cp	r14, r24
+  de:	f1 04       	cpc	r15, r1
+  e0:	41 f7       	brne	.-48     	; 0xb2 <_Z10N5110_DataPc+0x30>
+  e2:	80 e0       	ldi	r24, 0x00	; 0
+  e4:	c0 df       	rcall	.-128    	; 0x66 <_Z9SPI_Writec>
+  e6:	21 96       	adiw	r28, 0x01	; 1
+  e8:	0c 17       	cp	r16, r28
+  ea:	1d 07       	cpc	r17, r29
+  ec:	01 f7       	brne	.-64     	; 0xae <_Z10N5110_DataPc+0x2c>
+  ee:	b1 df       	rcall	.-158    	; 0x52 <_Z14SPI_SS_Disablev>
+  f0:	df 91       	pop	r29
+  f2:	cf 91       	pop	r28
+  f4:	1f 91       	pop	r17
+  f6:	0f 91       	pop	r16
+  f8:	ff 90       	pop	r15
+  fa:	ef 90       	pop	r14
+  fc:	08 95       	ret
+
+000000fe <_Z11N5110_Resetv>:
+  fe:	c0 98       	cbi	0x18, 0	; 24
+ 100:	2f ef       	ldi	r18, 0xFF	; 255
+ 102:	80 e7       	ldi	r24, 0x70	; 112
+ 104:	92 e0       	ldi	r25, 0x02	; 2
+ 106:	21 50       	subi	r18, 0x01	; 1
+ 108:	80 40       	sbci	r24, 0x00	; 0
+ 10a:	90 40       	sbci	r25, 0x00	; 0
+ 10c:	e1 f7       	brne	.-8      	; 0x106 <_Z11N5110_Resetv+0x8>
+ 10e:	00 c0       	rjmp	.+0      	; 0x110 <_Z11N5110_Resetv+0x12>
+ 110:	00 00       	nop
+ 112:	c0 9a       	sbi	0x18, 0	; 24
+ 114:	08 95       	ret
+
+00000116 <_Z10N5110_initv>:
+ 116:	f3 df       	rcall	.-26     	; 0xfe <_Z11N5110_Resetv>
+ 118:	81 e2       	ldi	r24, 0x21	; 33
+ 11a:	a9 df       	rcall	.-174    	; 0x6e <_Z10N5110_Cmndc>
+ 11c:	80 ec       	ldi	r24, 0xC0	; 192
+ 11e:	a7 df       	rcall	.-178    	; 0x6e <_Z10N5110_Cmndc>
+ 120:	87 e0       	ldi	r24, 0x07	; 7
+ 122:	a5 df       	rcall	.-182    	; 0x6e <_Z10N5110_Cmndc>
+ 124:	83 e1       	ldi	r24, 0x13	; 19
+ 126:	a3 df       	rcall	.-186    	; 0x6e <_Z10N5110_Cmndc>
+ 128:	80 e2       	ldi	r24, 0x20	; 32
+ 12a:	a1 df       	rcall	.-190    	; 0x6e <_Z10N5110_Cmndc>
+ 12c:	8c e0       	ldi	r24, 0x0C	; 12
+ 12e:	9f df       	rcall	.-194    	; 0x6e <_Z10N5110_Cmndc>
+ 130:	08 95       	ret
+
+00000132 <_Z9lcd_setXYcc>:
+ 132:	cf 93       	push	r28
+ 134:	c6 2f       	mov	r28, r22
+ 136:	9b df       	rcall	.-202    	; 0x6e <_Z10N5110_Cmndc>
+ 138:	8c 2f       	mov	r24, r28
+ 13a:	99 df       	rcall	.-206    	; 0x6e <_Z10N5110_Cmndc>
+ 13c:	cf 91       	pop	r28
+ 13e:	08 95       	ret
+
+00000140 <main>:
+
+int main()
+{
+	DDRC= 0xFF;
+ 140:	8f ef       	ldi	r24, 0xFF	; 255
+ 142:	84 bb       	out	0x14, r24	; 20
+	SPI_Init();
+ 144:	88 df       	rcall	.-240    	; 0x56 <_Z8SPI_Initv>
+	N5110_init();
+ 146:	e7 df       	rcall	.-50     	; 0x116 <_Z10N5110_initv>
+	lcd_setXY(0x40,0x80);
+ 148:	60 e8       	ldi	r22, 0x80	; 128
+ 14a:	80 e4       	ldi	r24, 0x40	; 64
+ 14c:	f2 df       	rcall	.-28     	; 0x132 <_Z9lcd_setXYcc>
+	N5110_Data("Electronic");
+ 14e:	80 e6       	ldi	r24, 0x60	; 96
+ 150:	90 e0       	ldi	r25, 0x00	; 0
+ 152:	97 df       	rcall	.-210    	; 0x82 <_Z10N5110_DataPc>
+	while(1)
+	{
+		PORTC = 0xFF;
+ 154:	8f ef       	ldi	r24, 0xFF	; 255
+ 156:	85 bb       	out	0x15, r24	; 21
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 158:	2f ef       	ldi	r18, 0xFF	; 255
+ 15a:	30 e7       	ldi	r19, 0x70	; 112
+ 15c:	92 e0       	ldi	r25, 0x02	; 2
+ 15e:	21 50       	subi	r18, 0x01	; 1
+ 160:	30 40       	sbci	r19, 0x00	; 0
+ 162:	90 40       	sbci	r25, 0x00	; 0
+ 164:	e1 f7       	brne	.-8      	; 0x15e <main+0x1e>
+ 166:	00 c0       	rjmp	.+0      	; 0x168 <main+0x28>
+ 168:	00 00       	nop
+		_delay_ms(100);
+		PORTC = 0x00;
+ 16a:	15 ba       	out	0x15, r1	; 21
+ 16c:	2f ef       	ldi	r18, 0xFF	; 255
+ 16e:	30 e7       	ldi	r19, 0x70	; 112
+ 170:	92 e0       	ldi	r25, 0x02	; 2
+ 172:	21 50       	subi	r18, 0x01	; 1
+ 174:	30 40       	sbci	r19, 0x00	; 0
+ 176:	90 40       	sbci	r25, 0x00	; 0
+ 178:	e1 f7       	brne	.-8      	; 0x172 <main+0x32>
+ 17a:	00 c0       	rjmp	.+0      	; 0x17c <main+0x3c>
+ 17c:	00 00       	nop
+ 17e:	eb cf       	rjmp	.-42     	; 0x156 <main+0x16>
+
+00000180 <_exit>:
+ 180:	f8 94       	cli
+
+00000182 <__stop_program>:
+ 182:	ff cf       	rjmp	.-2      	; 0x182 <__stop_program>
