@@ -1,0 +1,1370 @@
+
+Supa5110.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000006e6  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000272  00800060  000006e6  0000077a  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000007  008002d2  008002d2  000009ec  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000009ec  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000a1c  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 000000b8  00000000  00000000  00000a58  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   000016fc  00000000  00000000  00000b10  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 000007a1  00000000  00000000  0000220c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   0000076b  00000000  00000000  000029ad  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  000002e4  00000000  00000000  00003118  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    00000585  00000000  00000000  000033fc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    00000d4a  00000000  00000000  00003981  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 000000c8  00000000  00000000  000046cb  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	13 c0       	rjmp	.+38     	; 0x28 <__ctors_end>
+   2:	5c c0       	rjmp	.+184    	; 0xbc <__vector_1>
+   4:	af c0       	rjmp	.+350    	; 0x164 <__vector_2>
+   6:	35 c0       	rjmp	.+106    	; 0x72 <__bad_interrupt>
+   8:	34 c0       	rjmp	.+104    	; 0x72 <__bad_interrupt>
+   a:	33 c0       	rjmp	.+102    	; 0x72 <__bad_interrupt>
+   c:	32 c0       	rjmp	.+100    	; 0x72 <__bad_interrupt>
+   e:	31 c0       	rjmp	.+98     	; 0x72 <__bad_interrupt>
+  10:	30 c0       	rjmp	.+96     	; 0x72 <__bad_interrupt>
+  12:	2f c0       	rjmp	.+94     	; 0x72 <__bad_interrupt>
+  14:	2e c0       	rjmp	.+92     	; 0x72 <__bad_interrupt>
+  16:	2d c0       	rjmp	.+90     	; 0x72 <__bad_interrupt>
+  18:	2c c0       	rjmp	.+88     	; 0x72 <__bad_interrupt>
+  1a:	2b c0       	rjmp	.+86     	; 0x72 <__bad_interrupt>
+  1c:	2a c0       	rjmp	.+84     	; 0x72 <__bad_interrupt>
+  1e:	29 c0       	rjmp	.+82     	; 0x72 <__bad_interrupt>
+  20:	28 c0       	rjmp	.+80     	; 0x72 <__bad_interrupt>
+  22:	27 c0       	rjmp	.+78     	; 0x72 <__bad_interrupt>
+  24:	26 c0       	rjmp	.+76     	; 0x72 <__bad_interrupt>
+
+00000026 <__ctors_start>:
+  26:	07 01       	movw	r0, r14
+
+00000028 <__ctors_end>:
+  28:	11 24       	eor	r1, r1
+  2a:	1f be       	out	0x3f, r1	; 63
+  2c:	cf e5       	ldi	r28, 0x5F	; 95
+  2e:	d4 e0       	ldi	r29, 0x04	; 4
+  30:	de bf       	out	0x3e, r29	; 62
+  32:	cd bf       	out	0x3d, r28	; 61
+
+00000034 <__do_copy_data>:
+  34:	12 e0       	ldi	r17, 0x02	; 2
+  36:	a0 e6       	ldi	r26, 0x60	; 96
+  38:	b0 e0       	ldi	r27, 0x00	; 0
+  3a:	e6 ee       	ldi	r30, 0xE6	; 230
+  3c:	f6 e0       	ldi	r31, 0x06	; 6
+  3e:	02 c0       	rjmp	.+4      	; 0x44 <__SREG__+0x5>
+  40:	05 90       	lpm	r0, Z+
+  42:	0d 92       	st	X+, r0
+  44:	a2 3d       	cpi	r26, 0xD2	; 210
+  46:	b1 07       	cpc	r27, r17
+  48:	d9 f7       	brne	.-10     	; 0x40 <__SREG__+0x1>
+
+0000004a <__do_clear_bss>:
+  4a:	22 e0       	ldi	r18, 0x02	; 2
+  4c:	a2 ed       	ldi	r26, 0xD2	; 210
+  4e:	b2 e0       	ldi	r27, 0x02	; 2
+  50:	01 c0       	rjmp	.+2      	; 0x54 <.do_clear_bss_start>
+
+00000052 <.do_clear_bss_loop>:
+  52:	1d 92       	st	X+, r1
+
+00000054 <.do_clear_bss_start>:
+  54:	a9 3d       	cpi	r26, 0xD9	; 217
+  56:	b2 07       	cpc	r27, r18
+  58:	e1 f7       	brne	.-8      	; 0x52 <.do_clear_bss_loop>
+
+0000005a <__do_global_ctors>:
+  5a:	10 e0       	ldi	r17, 0x00	; 0
+  5c:	c4 e1       	ldi	r28, 0x14	; 20
+  5e:	d0 e0       	ldi	r29, 0x00	; 0
+  60:	03 c0       	rjmp	.+6      	; 0x68 <__do_global_ctors+0xe>
+  62:	21 97       	sbiw	r28, 0x01	; 1
+  64:	fe 01       	movw	r30, r28
+  66:	37 d3       	rcall	.+1646   	; 0x6d6 <__tablejump2__>
+  68:	c3 31       	cpi	r28, 0x13	; 19
+  6a:	d1 07       	cpc	r29, r17
+  6c:	d1 f7       	brne	.-12     	; 0x62 <__do_global_ctors+0x8>
+  6e:	02 d0       	rcall	.+4      	; 0x74 <main>
+  70:	38 c3       	rjmp	.+1648   	; 0x6e2 <_exit>
+
+00000072 <__bad_interrupt>:
+  72:	c6 cf       	rjmp	.-116    	; 0x0 <__vectors>
+
+00000074 <main>:
+char data[10][14] = {"1.vinh20cm","2.vinhcuto","3.vinhcukhung","4.vinhbigdick","5.vinhkhoaito","6.vinhsex","7.thichdit","8.ditditdit","9.ditmemay","10.capdatmaan"};
+Nokia5110 lcd;
+
+int main(void)
+{
+	MCUCR|=(1<<ISC11)|(1<<ISC01);
+  74:	85 b7       	in	r24, 0x35	; 53
+  76:	8a 60       	ori	r24, 0x0A	; 10
+  78:	85 bf       	out	0x35, r24	; 53
+	GICR    |=(1<<INT1)|(1<<INT0);
+  7a:	8b b7       	in	r24, 0x3b	; 59
+  7c:	80 6c       	ori	r24, 0xC0	; 192
+  7e:	8b bf       	out	0x3b, r24	; 59
+	sei();
+  80:	78 94       	sei
+	DDRC |= (1 << 5);
+  82:	a5 9a       	sbi	0x14, 5	; 20
+	PORTC |= (1 << 5);
+  84:	ad 9a       	sbi	0x15, 5	; 21
+	lcd.begin();
+  86:	82 ed       	ldi	r24, 0xD2	; 210
+  88:	92 e0       	ldi	r25, 0x02	; 2
+  8a:	23 d1       	rcall	.+582    	; 0x2d2 <_ZN9Nokia51105beginEv>
+	lcd.setCursor(0, 0);
+  8c:	40 e0       	ldi	r20, 0x00	; 0
+  8e:	60 e0       	ldi	r22, 0x00	; 0
+  90:	82 ed       	ldi	r24, 0xD2	; 210
+  92:	92 e0       	ldi	r25, 0x02	; 2
+  94:	e7 d0       	rcall	.+462    	; 0x264 <_ZN9Nokia51109setCursorEhh>
+	lcd.fillUp("LIST:");
+  96:	6c ee       	ldi	r22, 0xEC	; 236
+  98:	70 e0       	ldi	r23, 0x00	; 0
+  9a:	82 ed       	ldi	r24, 0xD2	; 210
+  9c:	92 e0       	ldi	r25, 0x02	; 2
+  9e:	60 d1       	rcall	.+704    	; 0x360 <_ZN9Nokia51106fillUpEPc>
+	lcd.PrintArray(data, x, select);
+  a0:	20 91 d5 02 	lds	r18, 0x02D5	; 0x8002d5 <select>
+  a4:	30 91 d6 02 	lds	r19, 0x02D6	; 0x8002d6 <select+0x1>
+  a8:	40 91 d7 02 	lds	r20, 0x02D7	; 0x8002d7 <x>
+  ac:	50 91 d8 02 	lds	r21, 0x02D8	; 0x8002d8 <x+0x1>
+  b0:	60 e6       	ldi	r22, 0x60	; 96
+  b2:	70 e0       	ldi	r23, 0x00	; 0
+  b4:	82 ed       	ldi	r24, 0xD2	; 210
+  b6:	92 e0       	ldi	r25, 0x02	; 2
+  b8:	14 d2       	rcall	.+1064   	; 0x4e2 <_ZN9Nokia511010PrintArrayEPA14_cii>
+  ba:	ff cf       	rjmp	.-2      	; 0xba <main+0x46>
+
+000000bc <__vector_1>:
+	while(1){
+	}
+}
+ISR(INT0_vect){
+  bc:	1f 92       	push	r1
+  be:	0f 92       	push	r0
+  c0:	0f b6       	in	r0, 0x3f	; 63
+  c2:	0f 92       	push	r0
+  c4:	11 24       	eor	r1, r1
+  c6:	2f 93       	push	r18
+  c8:	3f 93       	push	r19
+  ca:	4f 93       	push	r20
+  cc:	5f 93       	push	r21
+  ce:	6f 93       	push	r22
+  d0:	7f 93       	push	r23
+  d2:	8f 93       	push	r24
+  d4:	9f 93       	push	r25
+  d6:	af 93       	push	r26
+  d8:	bf 93       	push	r27
+  da:	ef 93       	push	r30
+  dc:	ff 93       	push	r31
+	if(select < 5)
+  de:	80 91 d5 02 	lds	r24, 0x02D5	; 0x8002d5 <select>
+  e2:	90 91 d6 02 	lds	r25, 0x02D6	; 0x8002d6 <select+0x1>
+  e6:	05 97       	sbiw	r24, 0x05	; 5
+  e8:	54 f4       	brge	.+20     	; 0xfe <__vector_1+0x42>
+		select++;
+  ea:	80 91 d5 02 	lds	r24, 0x02D5	; 0x8002d5 <select>
+  ee:	90 91 d6 02 	lds	r25, 0x02D6	; 0x8002d6 <select+0x1>
+  f2:	01 96       	adiw	r24, 0x01	; 1
+  f4:	90 93 d6 02 	sts	0x02D6, r25	; 0x8002d6 <select+0x1>
+  f8:	80 93 d5 02 	sts	0x02D5, r24	; 0x8002d5 <select>
+  fc:	15 c0       	rjmp	.+42     	; 0x128 <__vector_1+0x6c>
+	else if(select == 5)
+  fe:	80 91 d5 02 	lds	r24, 0x02D5	; 0x8002d5 <select>
+ 102:	90 91 d6 02 	lds	r25, 0x02D6	; 0x8002d6 <select+0x1>
+ 106:	05 97       	sbiw	r24, 0x05	; 5
+ 108:	79 f4       	brne	.+30     	; 0x128 <__vector_1+0x6c>
+	{
+		if (x < 5)
+ 10a:	80 91 d7 02 	lds	r24, 0x02D7	; 0x8002d7 <x>
+ 10e:	90 91 d8 02 	lds	r25, 0x02D8	; 0x8002d8 <x+0x1>
+ 112:	05 97       	sbiw	r24, 0x05	; 5
+ 114:	4c f4       	brge	.+18     	; 0x128 <__vector_1+0x6c>
+		x++;
+ 116:	80 91 d7 02 	lds	r24, 0x02D7	; 0x8002d7 <x>
+ 11a:	90 91 d8 02 	lds	r25, 0x02D8	; 0x8002d8 <x+0x1>
+ 11e:	01 96       	adiw	r24, 0x01	; 1
+ 120:	90 93 d8 02 	sts	0x02D8, r25	; 0x8002d8 <x+0x1>
+ 124:	80 93 d7 02 	sts	0x02D7, r24	; 0x8002d7 <x>
+	}
+	lcd.PrintArray(data, x, select);
+ 128:	20 91 d5 02 	lds	r18, 0x02D5	; 0x8002d5 <select>
+ 12c:	30 91 d6 02 	lds	r19, 0x02D6	; 0x8002d6 <select+0x1>
+ 130:	40 91 d7 02 	lds	r20, 0x02D7	; 0x8002d7 <x>
+ 134:	50 91 d8 02 	lds	r21, 0x02D8	; 0x8002d8 <x+0x1>
+ 138:	60 e6       	ldi	r22, 0x60	; 96
+ 13a:	70 e0       	ldi	r23, 0x00	; 0
+ 13c:	82 ed       	ldi	r24, 0xD2	; 210
+ 13e:	92 e0       	ldi	r25, 0x02	; 2
+ 140:	d0 d1       	rcall	.+928    	; 0x4e2 <_ZN9Nokia511010PrintArrayEPA14_cii>
+}
+ 142:	ff 91       	pop	r31
+ 144:	ef 91       	pop	r30
+ 146:	bf 91       	pop	r27
+ 148:	af 91       	pop	r26
+ 14a:	9f 91       	pop	r25
+ 14c:	8f 91       	pop	r24
+ 14e:	7f 91       	pop	r23
+ 150:	6f 91       	pop	r22
+ 152:	5f 91       	pop	r21
+ 154:	4f 91       	pop	r20
+ 156:	3f 91       	pop	r19
+ 158:	2f 91       	pop	r18
+ 15a:	0f 90       	pop	r0
+ 15c:	0f be       	out	0x3f, r0	; 63
+ 15e:	0f 90       	pop	r0
+ 160:	1f 90       	pop	r1
+ 162:	18 95       	reti
+
+00000164 <__vector_2>:
+ISR(INT1_vect){
+ 164:	1f 92       	push	r1
+ 166:	0f 92       	push	r0
+ 168:	0f b6       	in	r0, 0x3f	; 63
+ 16a:	0f 92       	push	r0
+ 16c:	11 24       	eor	r1, r1
+ 16e:	2f 93       	push	r18
+ 170:	3f 93       	push	r19
+ 172:	4f 93       	push	r20
+ 174:	5f 93       	push	r21
+ 176:	6f 93       	push	r22
+ 178:	7f 93       	push	r23
+ 17a:	8f 93       	push	r24
+ 17c:	9f 93       	push	r25
+ 17e:	af 93       	push	r26
+ 180:	bf 93       	push	r27
+ 182:	ef 93       	push	r30
+ 184:	ff 93       	push	r31
+	if(select > 1)
+ 186:	80 91 d5 02 	lds	r24, 0x02D5	; 0x8002d5 <select>
+ 18a:	90 91 d6 02 	lds	r25, 0x02D6	; 0x8002d6 <select+0x1>
+ 18e:	02 97       	sbiw	r24, 0x02	; 2
+ 190:	54 f0       	brlt	.+20     	; 0x1a6 <__vector_2+0x42>
+		select--;
+ 192:	80 91 d5 02 	lds	r24, 0x02D5	; 0x8002d5 <select>
+ 196:	90 91 d6 02 	lds	r25, 0x02D6	; 0x8002d6 <select+0x1>
+ 19a:	01 97       	sbiw	r24, 0x01	; 1
+ 19c:	90 93 d6 02 	sts	0x02D6, r25	; 0x8002d6 <select+0x1>
+ 1a0:	80 93 d5 02 	sts	0x02D5, r24	; 0x8002d5 <select>
+ 1a4:	16 c0       	rjmp	.+44     	; 0x1d2 <__vector_2+0x6e>
+	else if(select == 1)
+ 1a6:	80 91 d5 02 	lds	r24, 0x02D5	; 0x8002d5 <select>
+ 1aa:	90 91 d6 02 	lds	r25, 0x02D6	; 0x8002d6 <select+0x1>
+ 1ae:	01 97       	sbiw	r24, 0x01	; 1
+ 1b0:	81 f4       	brne	.+32     	; 0x1d2 <__vector_2+0x6e>
+	{
+		if(x > 0)
+ 1b2:	80 91 d7 02 	lds	r24, 0x02D7	; 0x8002d7 <x>
+ 1b6:	90 91 d8 02 	lds	r25, 0x02D8	; 0x8002d8 <x+0x1>
+ 1ba:	18 16       	cp	r1, r24
+ 1bc:	19 06       	cpc	r1, r25
+ 1be:	4c f4       	brge	.+18     	; 0x1d2 <__vector_2+0x6e>
+		x--;
+ 1c0:	80 91 d7 02 	lds	r24, 0x02D7	; 0x8002d7 <x>
+ 1c4:	90 91 d8 02 	lds	r25, 0x02D8	; 0x8002d8 <x+0x1>
+ 1c8:	01 97       	sbiw	r24, 0x01	; 1
+ 1ca:	90 93 d8 02 	sts	0x02D8, r25	; 0x8002d8 <x+0x1>
+ 1ce:	80 93 d7 02 	sts	0x02D7, r24	; 0x8002d7 <x>
+	}
+	lcd.PrintArray(data, x, select);
+ 1d2:	20 91 d5 02 	lds	r18, 0x02D5	; 0x8002d5 <select>
+ 1d6:	30 91 d6 02 	lds	r19, 0x02D6	; 0x8002d6 <select+0x1>
+ 1da:	40 91 d7 02 	lds	r20, 0x02D7	; 0x8002d7 <x>
+ 1de:	50 91 d8 02 	lds	r21, 0x02D8	; 0x8002d8 <x+0x1>
+ 1e2:	60 e6       	ldi	r22, 0x60	; 96
+ 1e4:	70 e0       	ldi	r23, 0x00	; 0
+ 1e6:	82 ed       	ldi	r24, 0xD2	; 210
+ 1e8:	92 e0       	ldi	r25, 0x02	; 2
+ 1ea:	7b d1       	rcall	.+758    	; 0x4e2 <_ZN9Nokia511010PrintArrayEPA14_cii>
+ 1ec:	ff 91       	pop	r31
+ 1ee:	ef 91       	pop	r30
+ 1f0:	bf 91       	pop	r27
+ 1f2:	af 91       	pop	r26
+ 1f4:	9f 91       	pop	r25
+ 1f6:	8f 91       	pop	r24
+ 1f8:	7f 91       	pop	r23
+ 1fa:	6f 91       	pop	r22
+ 1fc:	5f 91       	pop	r21
+ 1fe:	4f 91       	pop	r20
+ 200:	3f 91       	pop	r19
+ 202:	2f 91       	pop	r18
+ 204:	0f 90       	pop	r0
+ 206:	0f be       	out	0x3f, r0	; 63
+ 208:	0f 90       	pop	r0
+ 20a:	1f 90       	pop	r1
+ 20c:	18 95       	reti
+
+0000020e <_GLOBAL__sub_I_x>:
+#include <string.h>
+#include <avr/sfr_defs.h>
+#include <avr/interrupt.h>
+volatile int x = 0, select = 0;
+char data[10][14] = {"1.vinh20cm","2.vinhcuto","3.vinhcukhung","4.vinhbigdick","5.vinhkhoaito","6.vinhsex","7.thichdit","8.ditditdit","9.ditmemay","10.capdatmaan"};
+Nokia5110 lcd;
+ 20e:	82 ed       	ldi	r24, 0xD2	; 210
+ 210:	92 e0       	ldi	r25, 0x02	; 2
+ 212:	3a d0       	rcall	.+116    	; 0x288 <_ZN9Nokia5110C1Ev>
+ 214:	08 95       	ret
+
+00000216 <_ZN9Nokia51104sendEih>:
+#include "N5110.h"
+void Nokia5110::send(int type, uint8_t data){
+	LCD_PORT &= ~(1 << SCE);
+ 216:	c2 98       	cbi	0x18, 2	; 24
+	
+	if (type)
+ 218:	67 2b       	or	r22, r23
+ 21a:	11 f0       	breq	.+4      	; 0x220 <_ZN9Nokia51104sendEih+0xa>
+	LCD_PORT |= (1 << DC);
+ 21c:	c6 9a       	sbi	0x18, 6	; 24
+ 21e:	14 c0       	rjmp	.+40     	; 0x248 <_ZN9Nokia51104sendEih+0x32>
+	else
+	LCD_PORT &= ~(1 << DC );
+ 220:	c6 98       	cbi	0x18, 6	; 24
+ 222:	12 c0       	rjmp	.+36     	; 0x248 <_ZN9Nokia51104sendEih+0x32>
+	
+	for (int i = 0; i < 8; i++){
+		if ((data >> (7 - i)) & 0x01)
+ 224:	9a 01       	movw	r18, r20
+ 226:	08 2e       	mov	r0, r24
+ 228:	02 c0       	rjmp	.+4      	; 0x22e <_ZN9Nokia51104sendEih+0x18>
+ 22a:	35 95       	asr	r19
+ 22c:	27 95       	ror	r18
+ 22e:	0a 94       	dec	r0
+ 230:	e2 f7       	brpl	.-8      	; 0x22a <_ZN9Nokia51104sendEih+0x14>
+ 232:	20 ff       	sbrs	r18, 0
+ 234:	02 c0       	rjmp	.+4      	; 0x23a <_ZN9Nokia51104sendEih+0x24>
+		LCD_PORT |= (1 << SDIN);
+ 236:	c3 9a       	sbi	0x18, 3	; 24
+ 238:	01 c0       	rjmp	.+2      	; 0x23c <_ZN9Nokia51104sendEih+0x26>
+		else
+		LCD_PORT &= ~(1 << SDIN);
+ 23a:	c3 98       	cbi	0x18, 3	; 24
+		
+		LCD_PORT |= (1 << SCLK);
+ 23c:	c5 9a       	sbi	0x18, 5	; 24
+		LCD_PORT &= ~(1 << SCLK);
+ 23e:	c5 98       	cbi	0x18, 5	; 24
+ 240:	01 97       	sbiw	r24, 0x01	; 1
+ 242:	80 f7       	brcc	.-32     	; 0x224 <_ZN9Nokia51104sendEih+0xe>
+	}
+	
+	LCD_PORT |= (1 << SCE);
+ 244:	c2 9a       	sbi	0x18, 2	; 24
+}
+ 246:	08 95       	ret
+#include "N5110.h"
+void Nokia5110::send(int type, uint8_t data){
+ 248:	87 e0       	ldi	r24, 0x07	; 7
+ 24a:	90 e0       	ldi	r25, 0x00	; 0
+	LCD_PORT |= (1 << DC);
+	else
+	LCD_PORT &= ~(1 << DC );
+	
+	for (int i = 0; i < 8; i++){
+		if ((data >> (7 - i)) & 0x01)
+ 24c:	50 e0       	ldi	r21, 0x00	; 0
+ 24e:	ea cf       	rjmp	.-44     	; 0x224 <_ZN9Nokia51104sendEih+0xe>
+
+00000250 <_ZN9Nokia511011sendCommandEh>:
+	}
+	
+	LCD_PORT |= (1 << SCE);
+}
+
+void Nokia5110::sendCommand(uint8_t cmd){
+ 250:	46 2f       	mov	r20, r22
+	send(PCD8544_cmd, cmd);
+ 252:	60 e0       	ldi	r22, 0x00	; 0
+ 254:	70 e0       	ldi	r23, 0x00	; 0
+ 256:	df df       	rcall	.-66     	; 0x216 <_ZN9Nokia51104sendEih>
+ 258:	08 95       	ret
+
+0000025a <_ZN9Nokia51108sendDataEh>:
+}
+void Nokia5110::sendData(uint8_t data){
+ 25a:	46 2f       	mov	r20, r22
+	send(PCD8544_data, data);
+ 25c:	61 e0       	ldi	r22, 0x01	; 1
+ 25e:	70 e0       	ldi	r23, 0x00	; 0
+ 260:	da df       	rcall	.-76     	; 0x216 <_ZN9Nokia51104sendEih>
+ 262:	08 95       	ret
+
+00000264 <_ZN9Nokia51109setCursorEhh>:
+}
+
+void Nokia5110::setCursor(uint8_t x, uint8_t y){
+ 264:	cf 93       	push	r28
+ 266:	df 93       	push	r29
+ 268:	ec 01       	movw	r28, r24
+	this->cursor_x = x;
+ 26a:	68 83       	st	Y, r22
+	this->cursor_y = y;
+ 26c:	49 83       	std	Y+1, r20	; 0x01
+	sendCommand(0x20);
+ 26e:	60 e2       	ldi	r22, 0x20	; 32
+ 270:	ef df       	rcall	.-34     	; 0x250 <_ZN9Nokia511011sendCommandEh>
+	sendCommand(0x80 | this->cursor_x);
+ 272:	68 81       	ld	r22, Y
+ 274:	60 68       	ori	r22, 0x80	; 128
+ 276:	ce 01       	movw	r24, r28
+ 278:	eb df       	rcall	.-42     	; 0x250 <_ZN9Nokia511011sendCommandEh>
+	sendCommand(0x40 | this->cursor_y);
+ 27a:	69 81       	ldd	r22, Y+1	; 0x01
+ 27c:	60 64       	ori	r22, 0x40	; 64
+ 27e:	ce 01       	movw	r24, r28
+ 280:	e7 df       	rcall	.-50     	; 0x250 <_ZN9Nokia511011sendCommandEh>
+}
+ 282:	df 91       	pop	r29
+ 284:	cf 91       	pop	r28
+ 286:	08 95       	ret
+
+00000288 <_ZN9Nokia5110C1Ev>:
+Nokia5110::Nokia5110(){
+ 288:	fc 01       	movw	r30, r24
+	this->cursor_x = 0;
+ 28a:	10 82       	st	Z, r1
+	this->cursor_y = 0;
+ 28c:	11 82       	std	Z+1, r1	; 0x01
+	this->inverse_output = false;
+ 28e:	12 82       	std	Z+2, r1	; 0x02
+	LCD_DDR |= (1 << RST) | (1 << SCE) | (1 << DC) | (1 << SDIN) | (1 << SCLK);
+ 290:	87 b3       	in	r24, 0x17	; 23
+ 292:	8e 66       	ori	r24, 0x6E	; 110
+ 294:	87 bb       	out	0x17, r24	; 23
+	LCD_PORT |= (1 << RST) | (1 << SCE);
+ 296:	88 b3       	in	r24, 0x18	; 24
+ 298:	86 60       	ori	r24, 0x06	; 6
+ 29a:	88 bb       	out	0x18, r24	; 24
+ 29c:	08 95       	ret
+
+0000029e <_ZN9Nokia51105resetEv>:
+}
+
+void Nokia5110::reset(){
+	LCD_PORT |= (1 << RST) | (1 << SCE);
+ 29e:	88 b3       	in	r24, 0x18	; 24
+ 2a0:	86 60       	ori	r24, 0x06	; 6
+ 2a2:	88 bb       	out	0x18, r24	; 24
+	
+	LCD_PORT &= ~(1 << RST);
+ 2a4:	c1 98       	cbi	0x18, 1	; 24
+	LCD_PORT |= (1 << RST);
+ 2a6:	c1 9a       	sbi	0x18, 1	; 24
+ 2a8:	08 95       	ret
+
+000002aa <_ZN9Nokia511010clearSreenEv>:
+}
+
+void Nokia5110::clearSreen(){
+ 2aa:	0f 93       	push	r16
+ 2ac:	1f 93       	push	r17
+ 2ae:	cf 93       	push	r28
+ 2b0:	df 93       	push	r29
+ 2b2:	8c 01       	movw	r16, r24
+	setCursor(0, 0);
+ 2b4:	40 e0       	ldi	r20, 0x00	; 0
+ 2b6:	60 e0       	ldi	r22, 0x00	; 0
+ 2b8:	d5 df       	rcall	.-86     	; 0x264 <_ZN9Nokia51109setCursorEhh>
+ 2ba:	c8 ef       	ldi	r28, 0xF8	; 248
+ 2bc:	d1 e0       	ldi	r29, 0x01	; 1
+	for (int i = 0; i < 504; i++)
+	sendData(0x00);
+ 2be:	60 e0       	ldi	r22, 0x00	; 0
+ 2c0:	c8 01       	movw	r24, r16
+ 2c2:	cb df       	rcall	.-106    	; 0x25a <_ZN9Nokia51108sendDataEh>
+ 2c4:	21 97       	sbiw	r28, 0x01	; 1
+	LCD_PORT |= (1 << RST);
+}
+
+void Nokia5110::clearSreen(){
+	setCursor(0, 0);
+	for (int i = 0; i < 504; i++)
+ 2c6:	d9 f7       	brne	.-10     	; 0x2be <_ZN9Nokia511010clearSreenEv+0x14>
+	sendData(0x00);
+}
+ 2c8:	df 91       	pop	r29
+ 2ca:	cf 91       	pop	r28
+ 2cc:	1f 91       	pop	r17
+ 2ce:	0f 91       	pop	r16
+ 2d0:	08 95       	ret
+
+000002d2 <_ZN9Nokia51105beginEv>:
+
+void Nokia5110::begin(){
+ 2d2:	cf 93       	push	r28
+ 2d4:	df 93       	push	r29
+ 2d6:	ec 01       	movw	r28, r24
+	this->reset();
+ 2d8:	e2 df       	rcall	.-60     	; 0x29e <_ZN9Nokia51105resetEv>
+	
+	this->sendCommand(0x21); // H = 1
+ 2da:	61 e2       	ldi	r22, 0x21	; 33
+ 2dc:	ce 01       	movw	r24, r28
+ 2de:	b8 df       	rcall	.-144    	; 0x250 <_ZN9Nokia511011sendCommandEh>
+	this->sendCommand(0x80 | 0x10); //VOP[6:0] = (VLCD - 3,06) / 0.06           
+ 2e0:	60 e9       	ldi	r22, 0x90	; 144
+ 2e2:	ce 01       	movw	r24, r28
+ 2e4:	b5 df       	rcall	.-150    	; 0x250 <_ZN9Nokia511011sendCommandEh>
+	this->sendCommand(0x04); // TC0
+ 2e6:	64 e0       	ldi	r22, 0x04	; 4
+ 2e8:	ce 01       	movw	r24, r28
+ 2ea:	b2 df       	rcall	.-156    	; 0x250 <_ZN9Nokia511011sendCommandEh>
+	this->sendCommand(0x14); // Bias 1:40 - 1:34
+ 2ec:	64 e1       	ldi	r22, 0x14	; 20
+ 2ee:	ce 01       	movw	r24, r28
+ 2f0:	af df       	rcall	.-162    	; 0x250 <_ZN9Nokia511011sendCommandEh>
+	
+	this->sendCommand(0x20); //H = 0
+ 2f2:	60 e2       	ldi	r22, 0x20	; 32
+ 2f4:	ce 01       	movw	r24, r28
+ 2f6:	ac df       	rcall	.-168    	; 0x250 <_ZN9Nokia511011sendCommandEh>
+	this->sendCommand(0x80);
+ 2f8:	60 e8       	ldi	r22, 0x80	; 128
+ 2fa:	ce 01       	movw	r24, r28
+ 2fc:	a9 df       	rcall	.-174    	; 0x250 <_ZN9Nokia511011sendCommandEh>
+	this->sendCommand(0x40);
+ 2fe:	60 e4       	ldi	r22, 0x40	; 64
+ 300:	ce 01       	movw	r24, r28
+ 302:	a6 df       	rcall	.-180    	; 0x250 <_ZN9Nokia511011sendCommandEh>
+	this->sendCommand(0x0C); //Normal Mode
+ 304:	6c e0       	ldi	r22, 0x0C	; 12
+ 306:	ce 01       	movw	r24, r28
+ 308:	a3 df       	rcall	.-186    	; 0x250 <_ZN9Nokia511011sendCommandEh>
+	
+	this->clearSreen();
+ 30a:	ce 01       	movw	r24, r28
+ 30c:	ce df       	rcall	.-100    	; 0x2aa <_ZN9Nokia511010clearSreenEv>
+}
+ 30e:	df 91       	pop	r29
+ 310:	cf 91       	pop	r28
+ 312:	08 95       	ret
+
+00000314 <_ZN9Nokia51108sendCharEc>:
+		}
+		z++;
+	}
+}
+void Nokia5110::sendChar(char data)
+{
+ 314:	ef 92       	push	r14
+ 316:	ff 92       	push	r15
+ 318:	0f 93       	push	r16
+ 31a:	1f 93       	push	r17
+ 31c:	cf 93       	push	r28
+ 31e:	df 93       	push	r29
+ 320:	7c 01       	movw	r14, r24
+ 322:	70 e0       	ldi	r23, 0x00	; 0
+ 324:	eb 01       	movw	r28, r22
+ 326:	cc 0f       	add	r28, r28
+ 328:	dd 1f       	adc	r29, r29
+ 32a:	cc 0f       	add	r28, r28
+ 32c:	dd 1f       	adc	r29, r29
+ 32e:	6c 0f       	add	r22, r28
+ 330:	7d 1f       	adc	r23, r29
+ 332:	eb 01       	movw	r28, r22
+ 334:	ce 5a       	subi	r28, 0xAE	; 174
+ 336:	df 4f       	sbci	r29, 0xFF	; 255
+	for(int i = 0; i < 5; i++)
+ 338:	00 e0       	ldi	r16, 0x00	; 0
+ 33a:	10 e0       	ldi	r17, 0x00	; 0
+	{
+		this->sendData(CHARSET[int(data) - 0x20][i]);
+ 33c:	69 91       	ld	r22, Y+
+ 33e:	c7 01       	movw	r24, r14
+ 340:	8c df       	rcall	.-232    	; 0x25a <_ZN9Nokia51108sendDataEh>
+		z++;
+	}
+}
+void Nokia5110::sendChar(char data)
+{
+	for(int i = 0; i < 5; i++)
+ 342:	0f 5f       	subi	r16, 0xFF	; 255
+ 344:	1f 4f       	sbci	r17, 0xFF	; 255
+ 346:	05 30       	cpi	r16, 0x05	; 5
+ 348:	11 05       	cpc	r17, r1
+ 34a:	c1 f7       	brne	.-16     	; 0x33c <_ZN9Nokia51108sendCharEc+0x28>
+	{
+		this->sendData(CHARSET[int(data) - 0x20][i]);
+	}
+	this->sendData(0x00);
+ 34c:	60 e0       	ldi	r22, 0x00	; 0
+ 34e:	c7 01       	movw	r24, r14
+ 350:	84 df       	rcall	.-248    	; 0x25a <_ZN9Nokia51108sendDataEh>
+}
+ 352:	df 91       	pop	r29
+ 354:	cf 91       	pop	r28
+ 356:	1f 91       	pop	r17
+ 358:	0f 91       	pop	r16
+ 35a:	ff 90       	pop	r15
+ 35c:	ef 90       	pop	r14
+ 35e:	08 95       	ret
+
+00000360 <_ZN9Nokia51106fillUpEPc>:
+	this->sendCommand(0x0C); //Normal Mode
+	
+	this->clearSreen();
+}
+
+void Nokia5110::fillUp(char *data){
+ 360:	cf 92       	push	r12
+ 362:	df 92       	push	r13
+ 364:	ef 92       	push	r14
+ 366:	ff 92       	push	r15
+ 368:	0f 93       	push	r16
+ 36a:	1f 93       	push	r17
+ 36c:	cf 93       	push	r28
+ 36e:	df 93       	push	r29
+ 370:	7c 01       	movw	r14, r24
+	register int i = 0;
+	int length = 0;
+	while (data[i]){
+ 372:	fb 01       	movw	r30, r22
+ 374:	80 81       	ld	r24, Z
+ 376:	81 11       	cpse	r24, r1
+ 378:	05 c0       	rjmp	.+10     	; 0x384 <_ZN9Nokia51106fillUpEPc+0x24>
+ 37a:	2a c0       	rjmp	.+84     	; 0x3d0 <_ZN9Nokia51106fillUpEPc+0x70>
+		length++;
+		i++;
+	}
+	for (i = 0; i < length; i++){
+ 37c:	10 16       	cp	r1, r16
+ 37e:	11 06       	cpc	r1, r17
+ 380:	e4 f0       	brlt	.+56     	; 0x3ba <_ZN9Nokia51106fillUpEPc+0x5a>
+ 382:	0a c0       	rjmp	.+20     	; 0x398 <_ZN9Nokia51106fillUpEPc+0x38>
+ 384:	fb 01       	movw	r30, r22
+ 386:	31 96       	adiw	r30, 0x01	; 1
+}
+
+void Nokia5110::fillUp(char *data){
+	register int i = 0;
+	int length = 0;
+	while (data[i]){
+ 388:	00 e0       	ldi	r16, 0x00	; 0
+ 38a:	10 e0       	ldi	r17, 0x00	; 0
+		length++;
+ 38c:	0f 5f       	subi	r16, 0xFF	; 255
+ 38e:	1f 4f       	sbci	r17, 0xFF	; 255
+}
+
+void Nokia5110::fillUp(char *data){
+	register int i = 0;
+	int length = 0;
+	while (data[i]){
+ 390:	81 91       	ld	r24, Z+
+ 392:	81 11       	cpse	r24, r1
+ 394:	fb cf       	rjmp	.-10     	; 0x38c <_ZN9Nokia51106fillUpEPc+0x2c>
+ 396:	f2 cf       	rjmp	.-28     	; 0x37c <_ZN9Nokia51106fillUpEPc+0x1c>
+		i++;
+	}
+	for (i = 0; i < length; i++){
+		this->sendChar(data[i]);
+	}
+	for (i = 0; i < (14-length)*6; i++){
+ 398:	8e e0       	ldi	r24, 0x0E	; 14
+ 39a:	90 e0       	ldi	r25, 0x00	; 0
+ 39c:	9c 01       	movw	r18, r24
+ 39e:	20 1b       	sub	r18, r16
+ 3a0:	31 0b       	sbc	r19, r17
+ 3a2:	89 01       	movw	r16, r18
+ 3a4:	c9 01       	movw	r24, r18
+ 3a6:	88 0f       	add	r24, r24
+ 3a8:	99 1f       	adc	r25, r25
+ 3aa:	08 0f       	add	r16, r24
+ 3ac:	19 1f       	adc	r17, r25
+ 3ae:	00 0f       	add	r16, r16
+ 3b0:	11 1f       	adc	r17, r17
+ 3b2:	10 16       	cp	r1, r16
+ 3b4:	11 06       	cpc	r1, r17
+ 3b6:	74 f0       	brlt	.+28     	; 0x3d4 <_ZN9Nokia51106fillUpEPc+0x74>
+ 3b8:	16 c0       	rjmp	.+44     	; 0x3e6 <_ZN9Nokia51106fillUpEPc+0x86>
+ 3ba:	eb 01       	movw	r28, r22
+ 3bc:	6b 01       	movw	r12, r22
+ 3be:	c0 0e       	add	r12, r16
+ 3c0:	d1 1e       	adc	r13, r17
+	while (data[i]){
+		length++;
+		i++;
+	}
+	for (i = 0; i < length; i++){
+		this->sendChar(data[i]);
+ 3c2:	69 91       	ld	r22, Y+
+ 3c4:	c7 01       	movw	r24, r14
+ 3c6:	a6 df       	rcall	.-180    	; 0x314 <_ZN9Nokia51108sendCharEc>
+	int length = 0;
+	while (data[i]){
+		length++;
+		i++;
+	}
+	for (i = 0; i < length; i++){
+ 3c8:	cc 16       	cp	r12, r28
+ 3ca:	dd 06       	cpc	r13, r29
+ 3cc:	d1 f7       	brne	.-12     	; 0x3c2 <_ZN9Nokia51106fillUpEPc+0x62>
+ 3ce:	e4 cf       	rjmp	.-56     	; 0x398 <_ZN9Nokia51106fillUpEPc+0x38>
+		this->sendChar(data[i]);
+	}
+	for (i = 0; i < (14-length)*6; i++){
+ 3d0:	04 e5       	ldi	r16, 0x54	; 84
+ 3d2:	10 e0       	ldi	r17, 0x00	; 0
+ 3d4:	c0 e0       	ldi	r28, 0x00	; 0
+ 3d6:	d0 e0       	ldi	r29, 0x00	; 0
+		this->sendData(0x00);
+ 3d8:	60 e0       	ldi	r22, 0x00	; 0
+ 3da:	c7 01       	movw	r24, r14
+ 3dc:	3e df       	rcall	.-388    	; 0x25a <_ZN9Nokia51108sendDataEh>
+		i++;
+	}
+	for (i = 0; i < length; i++){
+		this->sendChar(data[i]);
+	}
+	for (i = 0; i < (14-length)*6; i++){
+ 3de:	21 96       	adiw	r28, 0x01	; 1
+ 3e0:	0c 17       	cp	r16, r28
+ 3e2:	1d 07       	cpc	r17, r29
+ 3e4:	c9 f7       	brne	.-14     	; 0x3d8 <_ZN9Nokia51106fillUpEPc+0x78>
+		this->sendData(0x00);
+	}
+}
+ 3e6:	df 91       	pop	r29
+ 3e8:	cf 91       	pop	r28
+ 3ea:	1f 91       	pop	r17
+ 3ec:	0f 91       	pop	r16
+ 3ee:	ff 90       	pop	r15
+ 3f0:	ef 90       	pop	r14
+ 3f2:	df 90       	pop	r13
+ 3f4:	cf 90       	pop	r12
+ 3f6:	08 95       	ret
+
+000003f8 <_ZN9Nokia511015reversesendCharEc>:
+		this->sendData(CHARSET[int(data) - 0x20][i]);
+	}
+	this->sendData(0x00);
+}
+void Nokia5110::reversesendChar(char data)
+{
+ 3f8:	ef 92       	push	r14
+ 3fa:	ff 92       	push	r15
+ 3fc:	0f 93       	push	r16
+ 3fe:	1f 93       	push	r17
+ 400:	cf 93       	push	r28
+ 402:	df 93       	push	r29
+ 404:	8c 01       	movw	r16, r24
+ 406:	70 e0       	ldi	r23, 0x00	; 0
+ 408:	eb 01       	movw	r28, r22
+ 40a:	cc 0f       	add	r28, r28
+ 40c:	dd 1f       	adc	r29, r29
+ 40e:	cc 0f       	add	r28, r28
+ 410:	dd 1f       	adc	r29, r29
+ 412:	6c 0f       	add	r22, r28
+ 414:	7d 1f       	adc	r23, r29
+ 416:	eb 01       	movw	r28, r22
+ 418:	ce 5a       	subi	r28, 0xAE	; 174
+ 41a:	df 4f       	sbci	r29, 0xFF	; 255
+	for(int i = 0; i < 5; i++)
+ 41c:	e1 2c       	mov	r14, r1
+ 41e:	f1 2c       	mov	r15, r1
+	{
+		this->sendData(0xFF^CHARSET[int(data) - 0x20][i]);
+ 420:	69 91       	ld	r22, Y+
+ 422:	60 95       	com	r22
+ 424:	c8 01       	movw	r24, r16
+ 426:	19 df       	rcall	.-462    	; 0x25a <_ZN9Nokia51108sendDataEh>
+	}
+	this->sendData(0x00);
+}
+void Nokia5110::reversesendChar(char data)
+{
+	for(int i = 0; i < 5; i++)
+ 428:	8f ef       	ldi	r24, 0xFF	; 255
+ 42a:	e8 1a       	sub	r14, r24
+ 42c:	f8 0a       	sbc	r15, r24
+ 42e:	85 e0       	ldi	r24, 0x05	; 5
+ 430:	e8 16       	cp	r14, r24
+ 432:	f1 04       	cpc	r15, r1
+ 434:	a9 f7       	brne	.-22     	; 0x420 <__LOCK_REGION_LENGTH__+0x20>
+	{
+		this->sendData(0xFF^CHARSET[int(data) - 0x20][i]);
+	}
+	this->sendData(0xFF);
+ 436:	6f ef       	ldi	r22, 0xFF	; 255
+ 438:	c8 01       	movw	r24, r16
+ 43a:	0f df       	rcall	.-482    	; 0x25a <_ZN9Nokia51108sendDataEh>
+}
+ 43c:	df 91       	pop	r29
+ 43e:	cf 91       	pop	r28
+ 440:	1f 91       	pop	r17
+ 442:	0f 91       	pop	r16
+ 444:	ff 90       	pop	r15
+ 446:	ef 90       	pop	r14
+ 448:	08 95       	ret
+
+0000044a <_ZN9Nokia51107reverseEPc>:
+	for (i = 0; i < (14-length)*6; i++){
+		this->sendData(0x00);
+	}
+}
+void Nokia5110::reverse(char *data)
+{
+ 44a:	cf 92       	push	r12
+ 44c:	df 92       	push	r13
+ 44e:	ef 92       	push	r14
+ 450:	ff 92       	push	r15
+ 452:	0f 93       	push	r16
+ 454:	1f 93       	push	r17
+ 456:	cf 93       	push	r28
+ 458:	df 93       	push	r29
+ 45a:	7c 01       	movw	r14, r24
+	register int i = 0;
+	int length = 0;
+	while (data[i]){
+ 45c:	fb 01       	movw	r30, r22
+ 45e:	80 81       	ld	r24, Z
+ 460:	81 11       	cpse	r24, r1
+ 462:	05 c0       	rjmp	.+10     	; 0x46e <__stack+0xf>
+ 464:	2a c0       	rjmp	.+84     	; 0x4ba <__stack+0x5b>
+		length++;
+		i++;
+	}
+	for (i = 0; i < length; i++)
+ 466:	10 16       	cp	r1, r16
+ 468:	11 06       	cpc	r1, r17
+ 46a:	e4 f0       	brlt	.+56     	; 0x4a4 <__stack+0x45>
+ 46c:	0a c0       	rjmp	.+20     	; 0x482 <__stack+0x23>
+ 46e:	fb 01       	movw	r30, r22
+ 470:	31 96       	adiw	r30, 0x01	; 1
+}
+void Nokia5110::reverse(char *data)
+{
+	register int i = 0;
+	int length = 0;
+	while (data[i]){
+ 472:	00 e0       	ldi	r16, 0x00	; 0
+ 474:	10 e0       	ldi	r17, 0x00	; 0
+		length++;
+ 476:	0f 5f       	subi	r16, 0xFF	; 255
+ 478:	1f 4f       	sbci	r17, 0xFF	; 255
+}
+void Nokia5110::reverse(char *data)
+{
+	register int i = 0;
+	int length = 0;
+	while (data[i]){
+ 47a:	81 91       	ld	r24, Z+
+ 47c:	81 11       	cpse	r24, r1
+ 47e:	fb cf       	rjmp	.-10     	; 0x476 <__stack+0x17>
+ 480:	f2 cf       	rjmp	.-28     	; 0x466 <__stack+0x7>
+		length++;
+		i++;
+	}
+	for (i = 0; i < length; i++)
+		this->reversesendChar(data[i]);
+	for (i = 0; i < (14 - length)*6; i++)
+ 482:	8e e0       	ldi	r24, 0x0E	; 14
+ 484:	90 e0       	ldi	r25, 0x00	; 0
+ 486:	9c 01       	movw	r18, r24
+ 488:	20 1b       	sub	r18, r16
+ 48a:	31 0b       	sbc	r19, r17
+ 48c:	89 01       	movw	r16, r18
+ 48e:	c9 01       	movw	r24, r18
+ 490:	88 0f       	add	r24, r24
+ 492:	99 1f       	adc	r25, r25
+ 494:	08 0f       	add	r16, r24
+ 496:	19 1f       	adc	r17, r25
+ 498:	00 0f       	add	r16, r16
+ 49a:	11 1f       	adc	r17, r17
+ 49c:	10 16       	cp	r1, r16
+ 49e:	11 06       	cpc	r1, r17
+ 4a0:	74 f0       	brlt	.+28     	; 0x4be <__stack+0x5f>
+ 4a2:	16 c0       	rjmp	.+44     	; 0x4d0 <__stack+0x71>
+ 4a4:	eb 01       	movw	r28, r22
+ 4a6:	6b 01       	movw	r12, r22
+ 4a8:	c0 0e       	add	r12, r16
+ 4aa:	d1 1e       	adc	r13, r17
+	while (data[i]){
+		length++;
+		i++;
+	}
+	for (i = 0; i < length; i++)
+		this->reversesendChar(data[i]);
+ 4ac:	69 91       	ld	r22, Y+
+ 4ae:	c7 01       	movw	r24, r14
+ 4b0:	a3 df       	rcall	.-186    	; 0x3f8 <_ZN9Nokia511015reversesendCharEc>
+	int length = 0;
+	while (data[i]){
+		length++;
+		i++;
+	}
+	for (i = 0; i < length; i++)
+ 4b2:	cc 16       	cp	r12, r28
+ 4b4:	dd 06       	cpc	r13, r29
+ 4b6:	d1 f7       	brne	.-12     	; 0x4ac <__stack+0x4d>
+ 4b8:	e4 cf       	rjmp	.-56     	; 0x482 <__stack+0x23>
+		this->reversesendChar(data[i]);
+	for (i = 0; i < (14 - length)*6; i++)
+ 4ba:	04 e5       	ldi	r16, 0x54	; 84
+ 4bc:	10 e0       	ldi	r17, 0x00	; 0
+ 4be:	c0 e0       	ldi	r28, 0x00	; 0
+ 4c0:	d0 e0       	ldi	r29, 0x00	; 0
+		this->sendData(0xFF);
+ 4c2:	6f ef       	ldi	r22, 0xFF	; 255
+ 4c4:	c7 01       	movw	r24, r14
+ 4c6:	c9 de       	rcall	.-622    	; 0x25a <_ZN9Nokia51108sendDataEh>
+		length++;
+		i++;
+	}
+	for (i = 0; i < length; i++)
+		this->reversesendChar(data[i]);
+	for (i = 0; i < (14 - length)*6; i++)
+ 4c8:	21 96       	adiw	r28, 0x01	; 1
+ 4ca:	0c 17       	cp	r16, r28
+ 4cc:	1d 07       	cpc	r17, r29
+ 4ce:	c9 f7       	brne	.-14     	; 0x4c2 <__stack+0x63>
+		this->sendData(0xFF);
+}
+ 4d0:	df 91       	pop	r29
+ 4d2:	cf 91       	pop	r28
+ 4d4:	1f 91       	pop	r17
+ 4d6:	0f 91       	pop	r16
+ 4d8:	ff 90       	pop	r15
+ 4da:	ef 90       	pop	r14
+ 4dc:	df 90       	pop	r13
+ 4de:	cf 90       	pop	r12
+ 4e0:	08 95       	ret
+
+000004e2 <_ZN9Nokia511010PrintArrayEPA14_cii>:
+void Nokia5110::PrintArray(char data[10][14], int x, int y)
+{
+ 4e2:	2f 92       	push	r2
+ 4e4:	3f 92       	push	r3
+ 4e6:	4f 92       	push	r4
+ 4e8:	5f 92       	push	r5
+ 4ea:	6f 92       	push	r6
+ 4ec:	7f 92       	push	r7
+ 4ee:	8f 92       	push	r8
+ 4f0:	9f 92       	push	r9
+ 4f2:	af 92       	push	r10
+ 4f4:	bf 92       	push	r11
+ 4f6:	cf 92       	push	r12
+ 4f8:	df 92       	push	r13
+ 4fa:	ef 92       	push	r14
+ 4fc:	ff 92       	push	r15
+ 4fe:	0f 93       	push	r16
+ 500:	1f 93       	push	r17
+ 502:	cf 93       	push	r28
+ 504:	df 93       	push	r29
+ 506:	00 d0       	rcall	.+0      	; 0x508 <_ZN9Nokia511010PrintArrayEPA14_cii+0x26>
+ 508:	00 d0       	rcall	.+0      	; 0x50a <_ZN9Nokia511010PrintArrayEPA14_cii+0x28>
+ 50a:	00 d0       	rcall	.+0      	; 0x50c <_ZN9Nokia511010PrintArrayEPA14_cii+0x2a>
+ 50c:	cd b7       	in	r28, 0x3d	; 61
+ 50e:	de b7       	in	r29, 0x3e	; 62
+ 510:	3c 01       	movw	r6, r24
+ 512:	29 01       	movw	r4, r18
+			fillUp(data[x]);
+		}
+		if(z == 0 && y == 1)
+		{
+			setCursor(0, 1);
+			reverse(data[x]);
+ 514:	44 0f       	add	r20, r20
+ 516:	55 1f       	adc	r21, r21
+ 518:	ca 01       	movw	r24, r20
+ 51a:	88 0f       	add	r24, r24
+ 51c:	99 1f       	adc	r25, r25
+ 51e:	88 0f       	add	r24, r24
+ 520:	99 1f       	adc	r25, r25
+ 522:	88 0f       	add	r24, r24
+ 524:	99 1f       	adc	r25, r25
+ 526:	84 1b       	sub	r24, r20
+ 528:	95 0b       	sbc	r25, r21
+ 52a:	4b 01       	movw	r8, r22
+ 52c:	88 0e       	add	r8, r24
+ 52e:	99 1e       	adc	r9, r25
+		}
+		if(z == 1 && y != 2)
+		{
+			setCursor(0, 2);
+			fillUp(data[x + 1]);
+ 530:	5c 01       	movw	r10, r24
+ 532:	2e e0       	ldi	r18, 0x0E	; 14
+ 534:	a2 0e       	add	r10, r18
+ 536:	b1 1c       	adc	r11, r1
+ 538:	a6 0e       	add	r10, r22
+ 53a:	b7 1e       	adc	r11, r23
+			reverse(data[x + 1]);
+		}
+		if(z == 2 && y != 3)
+		{
+			setCursor(0, 3);
+			fillUp(data[x + 2]);
+ 53c:	6c 01       	movw	r12, r24
+ 53e:	2c e1       	ldi	r18, 0x1C	; 28
+ 540:	c2 0e       	add	r12, r18
+ 542:	d1 1c       	adc	r13, r1
+ 544:	c6 0e       	add	r12, r22
+ 546:	d7 1e       	adc	r13, r23
+		}
+		if(z == 2 && y == 3)
+		{
+			setCursor(0, 3);
+			reverse(data[x + 2]);
+ 548:	2c 2c       	mov	r2, r12
+ 54a:	3d 2c       	mov	r3, r13
+		}
+		if(z == 3 && y != 4)
+		{
+			setCursor(0, 4);
+			fillUp(data[x + 3]);
+ 54c:	7c 01       	movw	r14, r24
+ 54e:	2a e2       	ldi	r18, 0x2A	; 42
+ 550:	e2 0e       	add	r14, r18
+ 552:	f1 1c       	adc	r15, r1
+ 554:	e6 0e       	add	r14, r22
+ 556:	f7 1e       	adc	r15, r23
+		}
+		if(z == 3 && y == 4)
+		{
+			setCursor(0, 4);
+			reverse(data[x + 3]);
+ 558:	e9 82       	std	Y+1, r14	; 0x01
+ 55a:	fa 82       	std	Y+2, r15	; 0x02
+		}
+		if(z == 4 && y != 5)
+		{
+			setCursor(0, 5);
+			fillUp(data[x + 4]);
+ 55c:	c8 96       	adiw	r24, 0x38	; 56
+ 55e:	8b 01       	movw	r16, r22
+ 560:	08 0f       	add	r16, r24
+ 562:	19 1f       	adc	r17, r25
+		}
+		if(z == 4 && y == 5)
+		{
+			setCursor(0, 5);
+			reverse(data[x + 4]);
+ 564:	0b 83       	std	Y+3, r16	; 0x03
+ 566:	1c 83       	std	Y+4, r17	; 0x04
+	for (i = 0; i < (14 - length)*6; i++)
+		this->sendData(0xFF);
+}
+void Nokia5110::PrintArray(char data[10][14], int x, int y)
+{
+	int z = 0;
+ 568:	1e 82       	std	Y+6, r1	; 0x06
+ 56a:	1d 82       	std	Y+5, r1	; 0x05
+	for (int i = 0; i < 5; i++)
+	{
+		if(z == 0 && y != 1)
+ 56c:	8d 81       	ldd	r24, Y+5	; 0x05
+ 56e:	9e 81       	ldd	r25, Y+6	; 0x06
+ 570:	89 2b       	or	r24, r25
+ 572:	69 f4       	brne	.+26     	; 0x58e <_ZN9Nokia511010PrintArrayEPA14_cii+0xac>
+ 574:	91 e0       	ldi	r25, 0x01	; 1
+ 576:	49 16       	cp	r4, r25
+ 578:	51 04       	cpc	r5, r1
+ 57a:	09 f4       	brne	.+2      	; 0x57e <_ZN9Nokia511010PrintArrayEPA14_cii+0x9c>
+ 57c:	8b c0       	rjmp	.+278    	; 0x694 <_ZN9Nokia511010PrintArrayEPA14_cii+0x1b2>
+		{
+			setCursor(0, 1);
+ 57e:	41 e0       	ldi	r20, 0x01	; 1
+ 580:	60 e0       	ldi	r22, 0x00	; 0
+ 582:	c3 01       	movw	r24, r6
+ 584:	6f de       	rcall	.-802    	; 0x264 <_ZN9Nokia51109setCursorEhh>
+			fillUp(data[x]);
+ 586:	b4 01       	movw	r22, r8
+ 588:	c3 01       	movw	r24, r6
+ 58a:	ea de       	rcall	.-556    	; 0x360 <_ZN9Nokia51106fillUpEPc>
+ 58c:	1c c0       	rjmp	.+56     	; 0x5c6 <_ZN9Nokia511010PrintArrayEPA14_cii+0xe4>
+		if(z == 0 && y == 1)
+		{
+			setCursor(0, 1);
+			reverse(data[x]);
+		}
+		if(z == 1 && y != 2)
+ 58e:	8d 81       	ldd	r24, Y+5	; 0x05
+ 590:	9e 81       	ldd	r25, Y+6	; 0x06
+ 592:	01 97       	sbiw	r24, 0x01	; 1
+ 594:	c1 f4       	brne	.+48     	; 0x5c6 <_ZN9Nokia511010PrintArrayEPA14_cii+0xe4>
+ 596:	92 e0       	ldi	r25, 0x02	; 2
+ 598:	49 16       	cp	r4, r25
+ 59a:	51 04       	cpc	r5, r1
+ 59c:	41 f0       	breq	.+16     	; 0x5ae <_ZN9Nokia511010PrintArrayEPA14_cii+0xcc>
+		{
+			setCursor(0, 2);
+ 59e:	42 e0       	ldi	r20, 0x02	; 2
+ 5a0:	60 e0       	ldi	r22, 0x00	; 0
+ 5a2:	c3 01       	movw	r24, r6
+ 5a4:	5f de       	rcall	.-834    	; 0x264 <_ZN9Nokia51109setCursorEhh>
+			fillUp(data[x + 1]);
+ 5a6:	b5 01       	movw	r22, r10
+ 5a8:	c3 01       	movw	r24, r6
+ 5aa:	da de       	rcall	.-588    	; 0x360 <_ZN9Nokia51106fillUpEPc>
+ 5ac:	2d c0       	rjmp	.+90     	; 0x608 <_ZN9Nokia511010PrintArrayEPA14_cii+0x126>
+		}
+		if(z == 1 && y == 2)
+		{
+			setCursor(0, 2);
+ 5ae:	42 e0       	ldi	r20, 0x02	; 2
+ 5b0:	60 e0       	ldi	r22, 0x00	; 0
+ 5b2:	c3 01       	movw	r24, r6
+ 5b4:	57 de       	rcall	.-850    	; 0x264 <_ZN9Nokia51109setCursorEhh>
+			reverse(data[x + 1]);
+ 5b6:	b5 01       	movw	r22, r10
+ 5b8:	c3 01       	movw	r24, r6
+ 5ba:	47 df       	rcall	.-370    	; 0x44a <_ZN9Nokia51107reverseEPc>
+		if(z == 2 && y != 3)
+		{
+			setCursor(0, 3);
+			fillUp(data[x + 2]);
+		}
+		if(z == 2 && y == 3)
+ 5bc:	8d 81       	ldd	r24, Y+5	; 0x05
+ 5be:	9e 81       	ldd	r25, Y+6	; 0x06
+ 5c0:	02 97       	sbiw	r24, 0x02	; 2
+ 5c2:	89 f0       	breq	.+34     	; 0x5e6 <_ZN9Nokia511010PrintArrayEPA14_cii+0x104>
+ 5c4:	21 c0       	rjmp	.+66     	; 0x608 <_ZN9Nokia511010PrintArrayEPA14_cii+0x126>
+		if(z == 1 && y == 2)
+		{
+			setCursor(0, 2);
+			reverse(data[x + 1]);
+		}
+		if(z == 2 && y != 3)
+ 5c6:	8d 81       	ldd	r24, Y+5	; 0x05
+ 5c8:	9e 81       	ldd	r25, Y+6	; 0x06
+ 5ca:	02 97       	sbiw	r24, 0x02	; 2
+ 5cc:	e9 f4       	brne	.+58     	; 0x608 <_ZN9Nokia511010PrintArrayEPA14_cii+0x126>
+ 5ce:	93 e0       	ldi	r25, 0x03	; 3
+ 5d0:	49 16       	cp	r4, r25
+ 5d2:	51 04       	cpc	r5, r1
+ 5d4:	61 f0       	breq	.+24     	; 0x5ee <_ZN9Nokia511010PrintArrayEPA14_cii+0x10c>
+		{
+			setCursor(0, 3);
+ 5d6:	43 e0       	ldi	r20, 0x03	; 3
+ 5d8:	60 e0       	ldi	r22, 0x00	; 0
+ 5da:	c3 01       	movw	r24, r6
+ 5dc:	43 de       	rcall	.-890    	; 0x264 <_ZN9Nokia51109setCursorEhh>
+			fillUp(data[x + 2]);
+ 5de:	b6 01       	movw	r22, r12
+ 5e0:	c3 01       	movw	r24, r6
+ 5e2:	be de       	rcall	.-644    	; 0x360 <_ZN9Nokia51106fillUpEPc>
+ 5e4:	32 c0       	rjmp	.+100    	; 0x64a <_ZN9Nokia511010PrintArrayEPA14_cii+0x168>
+		}
+		if(z == 2 && y == 3)
+ 5e6:	23 e0       	ldi	r18, 0x03	; 3
+ 5e8:	42 16       	cp	r4, r18
+ 5ea:	51 04       	cpc	r5, r1
+ 5ec:	71 f5       	brne	.+92     	; 0x64a <_ZN9Nokia511010PrintArrayEPA14_cii+0x168>
+		{
+			setCursor(0, 3);
+ 5ee:	43 e0       	ldi	r20, 0x03	; 3
+ 5f0:	60 e0       	ldi	r22, 0x00	; 0
+ 5f2:	c3 01       	movw	r24, r6
+ 5f4:	37 de       	rcall	.-914    	; 0x264 <_ZN9Nokia51109setCursorEhh>
+			reverse(data[x + 2]);
+ 5f6:	62 2d       	mov	r22, r2
+ 5f8:	73 2d       	mov	r23, r3
+ 5fa:	c3 01       	movw	r24, r6
+ 5fc:	26 df       	rcall	.-436    	; 0x44a <_ZN9Nokia51107reverseEPc>
+		if(z == 3 && y != 4)
+		{
+			setCursor(0, 4);
+			fillUp(data[x + 3]);
+		}
+		if(z == 3 && y == 4)
+ 5fe:	8d 81       	ldd	r24, Y+5	; 0x05
+ 600:	9e 81       	ldd	r25, Y+6	; 0x06
+ 602:	03 97       	sbiw	r24, 0x03	; 3
+ 604:	89 f0       	breq	.+34     	; 0x628 <_ZN9Nokia511010PrintArrayEPA14_cii+0x146>
+ 606:	21 c0       	rjmp	.+66     	; 0x64a <_ZN9Nokia511010PrintArrayEPA14_cii+0x168>
+		if(z == 2 && y == 3)
+		{
+			setCursor(0, 3);
+			reverse(data[x + 2]);
+		}
+		if(z == 3 && y != 4)
+ 608:	8d 81       	ldd	r24, Y+5	; 0x05
+ 60a:	9e 81       	ldd	r25, Y+6	; 0x06
+ 60c:	03 97       	sbiw	r24, 0x03	; 3
+ 60e:	e9 f4       	brne	.+58     	; 0x64a <_ZN9Nokia511010PrintArrayEPA14_cii+0x168>
+ 610:	94 e0       	ldi	r25, 0x04	; 4
+ 612:	49 16       	cp	r4, r25
+ 614:	51 04       	cpc	r5, r1
+ 616:	61 f0       	breq	.+24     	; 0x630 <_ZN9Nokia511010PrintArrayEPA14_cii+0x14e>
+		{
+			setCursor(0, 4);
+ 618:	44 e0       	ldi	r20, 0x04	; 4
+ 61a:	60 e0       	ldi	r22, 0x00	; 0
+ 61c:	c3 01       	movw	r24, r6
+ 61e:	22 de       	rcall	.-956    	; 0x264 <_ZN9Nokia51109setCursorEhh>
+			fillUp(data[x + 3]);
+ 620:	b7 01       	movw	r22, r14
+ 622:	c3 01       	movw	r24, r6
+ 624:	9d de       	rcall	.-710    	; 0x360 <_ZN9Nokia51106fillUpEPc>
+ 626:	2d c0       	rjmp	.+90     	; 0x682 <_ZN9Nokia511010PrintArrayEPA14_cii+0x1a0>
+		}
+		if(z == 3 && y == 4)
+ 628:	24 e0       	ldi	r18, 0x04	; 4
+ 62a:	42 16       	cp	r4, r18
+ 62c:	51 04       	cpc	r5, r1
+ 62e:	49 f5       	brne	.+82     	; 0x682 <_ZN9Nokia511010PrintArrayEPA14_cii+0x1a0>
+		{
+			setCursor(0, 4);
+ 630:	44 e0       	ldi	r20, 0x04	; 4
+ 632:	60 e0       	ldi	r22, 0x00	; 0
+ 634:	c3 01       	movw	r24, r6
+ 636:	16 de       	rcall	.-980    	; 0x264 <_ZN9Nokia51109setCursorEhh>
+			reverse(data[x + 3]);
+ 638:	69 81       	ldd	r22, Y+1	; 0x01
+ 63a:	7a 81       	ldd	r23, Y+2	; 0x02
+ 63c:	c3 01       	movw	r24, r6
+ 63e:	05 df       	rcall	.-502    	; 0x44a <_ZN9Nokia51107reverseEPc>
+		if(z == 4 && y != 5)
+		{
+			setCursor(0, 5);
+			fillUp(data[x + 4]);
+		}
+		if(z == 4 && y == 5)
+ 640:	8d 81       	ldd	r24, Y+5	; 0x05
+ 642:	9e 81       	ldd	r25, Y+6	; 0x06
+ 644:	04 97       	sbiw	r24, 0x04	; 4
+ 646:	89 f0       	breq	.+34     	; 0x66a <_ZN9Nokia511010PrintArrayEPA14_cii+0x188>
+ 648:	1c c0       	rjmp	.+56     	; 0x682 <_ZN9Nokia511010PrintArrayEPA14_cii+0x1a0>
+		if(z == 3 && y == 4)
+		{
+			setCursor(0, 4);
+			reverse(data[x + 3]);
+		}
+		if(z == 4 && y != 5)
+ 64a:	8d 81       	ldd	r24, Y+5	; 0x05
+ 64c:	9e 81       	ldd	r25, Y+6	; 0x06
+ 64e:	04 97       	sbiw	r24, 0x04	; 4
+ 650:	c1 f4       	brne	.+48     	; 0x682 <_ZN9Nokia511010PrintArrayEPA14_cii+0x1a0>
+ 652:	95 e0       	ldi	r25, 0x05	; 5
+ 654:	49 16       	cp	r4, r25
+ 656:	51 04       	cpc	r5, r1
+ 658:	61 f0       	breq	.+24     	; 0x672 <_ZN9Nokia511010PrintArrayEPA14_cii+0x190>
+		{
+			setCursor(0, 5);
+ 65a:	45 e0       	ldi	r20, 0x05	; 5
+ 65c:	60 e0       	ldi	r22, 0x00	; 0
+ 65e:	c3 01       	movw	r24, r6
+ 660:	01 de       	rcall	.-1022   	; 0x264 <_ZN9Nokia51109setCursorEhh>
+			fillUp(data[x + 4]);
+ 662:	b8 01       	movw	r22, r16
+ 664:	c3 01       	movw	r24, r6
+ 666:	7c de       	rcall	.-776    	; 0x360 <_ZN9Nokia51106fillUpEPc>
+ 668:	1d c0       	rjmp	.+58     	; 0x6a4 <_ZN9Nokia511010PrintArrayEPA14_cii+0x1c2>
+		}
+		if(z == 4 && y == 5)
+ 66a:	25 e0       	ldi	r18, 0x05	; 5
+ 66c:	42 16       	cp	r4, r18
+ 66e:	51 04       	cpc	r5, r1
+ 670:	c9 f4       	brne	.+50     	; 0x6a4 <_ZN9Nokia511010PrintArrayEPA14_cii+0x1c2>
+		{
+			setCursor(0, 5);
+ 672:	45 e0       	ldi	r20, 0x05	; 5
+ 674:	60 e0       	ldi	r22, 0x00	; 0
+ 676:	c3 01       	movw	r24, r6
+ 678:	f5 dd       	rcall	.-1046   	; 0x264 <_ZN9Nokia51109setCursorEhh>
+			reverse(data[x + 4]);
+ 67a:	6b 81       	ldd	r22, Y+3	; 0x03
+ 67c:	7c 81       	ldd	r23, Y+4	; 0x04
+ 67e:	c3 01       	movw	r24, r6
+ 680:	e4 de       	rcall	.-568    	; 0x44a <_ZN9Nokia51107reverseEPc>
+		}
+		z++;
+ 682:	8d 81       	ldd	r24, Y+5	; 0x05
+ 684:	9e 81       	ldd	r25, Y+6	; 0x06
+ 686:	01 96       	adiw	r24, 0x01	; 1
+ 688:	9e 83       	std	Y+6, r25	; 0x06
+ 68a:	8d 83       	std	Y+5, r24	; 0x05
+		this->sendData(0xFF);
+}
+void Nokia5110::PrintArray(char data[10][14], int x, int y)
+{
+	int z = 0;
+	for (int i = 0; i < 5; i++)
+ 68c:	05 97       	sbiw	r24, 0x05	; 5
+ 68e:	09 f0       	breq	.+2      	; 0x692 <_ZN9Nokia511010PrintArrayEPA14_cii+0x1b0>
+ 690:	6d cf       	rjmp	.-294    	; 0x56c <_ZN9Nokia511010PrintArrayEPA14_cii+0x8a>
+ 692:	08 c0       	rjmp	.+16     	; 0x6a4 <_ZN9Nokia511010PrintArrayEPA14_cii+0x1c2>
+			setCursor(0, 1);
+			fillUp(data[x]);
+		}
+		if(z == 0 && y == 1)
+		{
+			setCursor(0, 1);
+ 694:	41 e0       	ldi	r20, 0x01	; 1
+ 696:	60 e0       	ldi	r22, 0x00	; 0
+ 698:	c3 01       	movw	r24, r6
+ 69a:	e4 dd       	rcall	.-1080   	; 0x264 <_ZN9Nokia51109setCursorEhh>
+			reverse(data[x]);
+ 69c:	b4 01       	movw	r22, r8
+ 69e:	c3 01       	movw	r24, r6
+ 6a0:	d4 de       	rcall	.-600    	; 0x44a <_ZN9Nokia51107reverseEPc>
+ 6a2:	b2 cf       	rjmp	.-156    	; 0x608 <_ZN9Nokia511010PrintArrayEPA14_cii+0x126>
+			setCursor(0, 5);
+			reverse(data[x + 4]);
+		}
+		z++;
+	}
+}
+ 6a4:	26 96       	adiw	r28, 0x06	; 6
+ 6a6:	0f b6       	in	r0, 0x3f	; 63
+ 6a8:	f8 94       	cli
+ 6aa:	de bf       	out	0x3e, r29	; 62
+ 6ac:	0f be       	out	0x3f, r0	; 63
+ 6ae:	cd bf       	out	0x3d, r28	; 61
+ 6b0:	df 91       	pop	r29
+ 6b2:	cf 91       	pop	r28
+ 6b4:	1f 91       	pop	r17
+ 6b6:	0f 91       	pop	r16
+ 6b8:	ff 90       	pop	r15
+ 6ba:	ef 90       	pop	r14
+ 6bc:	df 90       	pop	r13
+ 6be:	cf 90       	pop	r12
+ 6c0:	bf 90       	pop	r11
+ 6c2:	af 90       	pop	r10
+ 6c4:	9f 90       	pop	r9
+ 6c6:	8f 90       	pop	r8
+ 6c8:	7f 90       	pop	r7
+ 6ca:	6f 90       	pop	r6
+ 6cc:	5f 90       	pop	r5
+ 6ce:	4f 90       	pop	r4
+ 6d0:	3f 90       	pop	r3
+ 6d2:	2f 90       	pop	r2
+ 6d4:	08 95       	ret
+
+000006d6 <__tablejump2__>:
+ 6d6:	ee 0f       	add	r30, r30
+ 6d8:	ff 1f       	adc	r31, r31
+ 6da:	05 90       	lpm	r0, Z+
+ 6dc:	f4 91       	lpm	r31, Z
+ 6de:	e0 2d       	mov	r30, r0
+ 6e0:	09 94       	ijmp
+
+000006e2 <_exit>:
+ 6e2:	f8 94       	cli
+
+000006e4 <__stop_program>:
+ 6e4:	ff cf       	rjmp	.-2      	; 0x6e4 <__stop_program>
