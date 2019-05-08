@@ -8,8 +8,8 @@
 #define MISO 4
 #define SCK 5
 #define SS 2
-#define DC 1
-#define RST 0
+#define DC 6
+#define RST 1
 void SPI_SS_Enable()												/* Enable the SS pin to logic zero */
 {
 	PORTB &= ~(1<<SS);
@@ -109,14 +109,11 @@ int main()
 	DDRC= 0xFF;
 	SPI_Init();
 	N5110_init();
+	N5110_clear();
 	lcd_setXY(0x40,0x80);
 	N5110_Data("Electronic");
 	while(1)
 	{
-		PORTC = 0xFF;
-		_delay_ms(100);
-		PORTC = 0x00;
-		_delay_ms(100);
 	}
 	return 0;
 }

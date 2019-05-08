@@ -21,11 +21,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   8 .debug_frame  00000024  00000000  00000000  00000ea8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000339  00000000  00000000  00000ecc  2**0
+  9 .debug_str    00000337  00000000  00000000  00000ecc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000048  00000000  00000000  00001205  2**0
+ 10 .debug_loc    00000048  00000000  00000000  00001203  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000010  00000000  00000000  0000124d  2**0
+ 11 .debug_ranges 00000010  00000000  00000000  0000124b  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -70,13 +70,13 @@ Disassembly of section .text:
 #include <avr/sfr_defs.h>
 int main()
 {
-	DDRB= 0xFF;
+	DDRD = 0xFF;
   38:	8f ef       	ldi	r24, 0xFF	; 255
-  3a:	87 bb       	out	0x17, r24	; 23
+  3a:	81 bb       	out	0x11, r24	; 17
 	while(1)
 	{
-		PORTB = 0x00;
-  3c:	18 ba       	out	0x18, r1	; 24
+		PORTD = 0x00;
+  3c:	12 ba       	out	0x12, r1	; 18
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
@@ -84,20 +84,20 @@ int main()
 
 	__builtin_avr_delay_cycles(__ticks_dc);
   3e:	2f ef       	ldi	r18, 0xFF	; 255
-  40:	30 e7       	ldi	r19, 0x70	; 112
-  42:	92 e0       	ldi	r25, 0x02	; 2
+  40:	39 e6       	ldi	r19, 0x69	; 105
+  42:	98 e1       	ldi	r25, 0x18	; 24
   44:	21 50       	subi	r18, 0x01	; 1
   46:	30 40       	sbci	r19, 0x00	; 0
   48:	90 40       	sbci	r25, 0x00	; 0
   4a:	e1 f7       	brne	.-8      	; 0x44 <__SREG__+0x5>
   4c:	00 c0       	rjmp	.+0      	; 0x4e <__SREG__+0xf>
   4e:	00 00       	nop
-		_delay_ms(100);
-		PORTB = 0xFF;
-  50:	88 bb       	out	0x18, r24	; 24
+		_delay_ms(1000);
+		PORTD = 0xFF;
+  50:	82 bb       	out	0x12, r24	; 18
   52:	2f ef       	ldi	r18, 0xFF	; 255
-  54:	30 e7       	ldi	r19, 0x70	; 112
-  56:	92 e0       	ldi	r25, 0x02	; 2
+  54:	39 e6       	ldi	r19, 0x69	; 105
+  56:	98 e1       	ldi	r25, 0x18	; 24
   58:	21 50       	subi	r18, 0x01	; 1
   5a:	30 40       	sbci	r19, 0x00	; 0
   5c:	90 40       	sbci	r25, 0x00	; 0

@@ -4,12 +4,12 @@
 #include <avr/sfr_defs.h>
 int main()
 {
-	DDRB= 0xFF;
+	DDRD = 0xFF;
 	while(1)
 	{
-		PORTB = 0x00;
-		_delay_ms(100);
-		PORTB = 0xFF;
-		_delay_ms(100);
+		PORTD = 0x00;
+		_delay_ms(1000);
+		PORTD = 0xFF;
+		_delay_ms(1000);
 	}
 }

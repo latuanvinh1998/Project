@@ -100,58 +100,60 @@ void Nokia5110::reverse(char *data)
 }
 void Nokia5110::PrintArray(char data[10][14], int x, int y)
 {
+	this->setCursor(0, 0);
+	this->fillUp("LIST:");
 	int z = 0;
 	for (int i = 0; i < 5; i++)
 	{
 		if(z == 0 && y != 1)
 		{
-			setCursor(0, 1);
-			fillUp(data[x]);
+			this->setCursor(0, 1);
+			this->fillUp(data[x]);
 		}
 		if(z == 0 && y == 1)
 		{
-			setCursor(0, 1);
-			reverse(data[x]);
+			this->setCursor(0, 1);
+			this->reverse(data[x]);
 		}
 		if(z == 1 && y != 2)
 		{
-			setCursor(0, 2);
-			fillUp(data[x + 1]);
+			this->setCursor(0, 2);
+			this->fillUp(data[x + 1]);
 		}
 		if(z == 1 && y == 2)
 		{
-			setCursor(0, 2);
-			reverse(data[x + 1]);
+			this->setCursor(0, 2);
+			this->reverse(data[x + 1]);
 		}
 		if(z == 2 && y != 3)
 		{
-			setCursor(0, 3);
-			fillUp(data[x + 2]);
+			this->setCursor(0, 3);
+			this->fillUp(data[x + 2]);
 		}
 		if(z == 2 && y == 3)
 		{
-			setCursor(0, 3);
-			reverse(data[x + 2]);
+			this->setCursor(0, 3);
+			this->reverse(data[x + 2]);
 		}
 		if(z == 3 && y != 4)
 		{
-			setCursor(0, 4);
-			fillUp(data[x + 3]);
+			this->setCursor(0, 4);
+			this->fillUp(data[x + 3]);
 		}
 		if(z == 3 && y == 4)
 		{
-			setCursor(0, 4);
-			reverse(data[x + 3]);
+			this->setCursor(0, 4);
+			this->reverse(data[x + 3]);
 		}
 		if(z == 4 && y != 5)
 		{
-			setCursor(0, 5);
-			fillUp(data[x + 4]);
+			this->setCursor(0, 5);
+			this->fillUp(data[x + 4]);
 		}
 		if(z == 4 && y == 5)
 		{
-			setCursor(0, 5);
-			reverse(data[x + 4]);
+			this->setCursor(0, 5);
+			this->reverse(data[x + 4]);
 		}
 		z++;
 	}

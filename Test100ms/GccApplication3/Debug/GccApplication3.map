@@ -374,11 +374,11 @@ END GROUP
  *(.debug_frame)
  .debug_frame   0x00000000       0x24 main.o
 
-.debug_str      0x00000000      0x339
+.debug_str      0x00000000      0x337
  *(.debug_str)
  .debug_str     0x00000000      0x17a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega8a/avr4/crtatmega8a.o
- .debug_str     0x0000017a      0x1bf main.o
-                                0x1f3 (size before relaxing)
+ .debug_str     0x0000017a      0x1bd main.o
+                                0x1f1 (size before relaxing)
 
 .debug_loc      0x00000000       0x48
  *(.debug_loc)

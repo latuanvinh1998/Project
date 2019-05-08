@@ -29,6 +29,7 @@ ISR(INT0_vect){
 		x++;
 	}
 	lcd.PrintArray(data, x, select);
+	_delay_ms(1000);
 }
 ISR(INT1_vect){
 	if(select > 1)
@@ -39,4 +40,5 @@ ISR(INT1_vect){
 		x--;
 	}
 	lcd.PrintArray(data, x, select);
+	_delay_ms(1000);
 }
