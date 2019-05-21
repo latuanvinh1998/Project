@@ -164,7 +164,6 @@ void PrintArray(char a[10][14], int x, int y)
 volatile uint8_t	Second=55, Minute=59, Hour=10, Day=1, Date=31, Month=12, Year=18, Mode=1, AP=1;
 volatile uint8_t tData[7], Time_count=0;
 uint8_t length = 7;
-char dis[5];
 
 uint8_t BCD2Dec(uint8_t BCD){
 	uint8_t L, H;

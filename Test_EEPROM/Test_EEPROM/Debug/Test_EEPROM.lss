@@ -3,27 +3,29 @@ Test_EEPROM.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000056  00000000  00000000  00000054  2**1
+  0 .text         000001b2  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  000000aa  2**0
+  1 .data         00000000  00800060  00800060  00000206  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  000000aa  2**0
+  2 .comment      00000030  00000000  00000000  00000206  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000000dc  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000238  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  00000118  2**0
+  4 .debug_aranges 00000038  00000000  00000000  00000274  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000508  00000000  00000000  00000138  2**0
+  5 .debug_info   000006bb  00000000  00000000  000002ac  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000495  00000000  00000000  00000640  2**0
+  6 .debug_abbrev 000005b9  00000000  00000000  00000967  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000166  00000000  00000000  00000ad5  2**0
+  7 .debug_line   00000404  00000000  00000000  00000f20  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000024  00000000  00000000  00000c3c  2**2
+  8 .debug_frame  00000054  00000000  00000000  00001324  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000002ea  00000000  00000000  00000c60  2**0
+  9 .debug_str    0000039e  00000000  00000000  00001378  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 00000010  00000000  00000000  00000f4a  2**0
+ 10 .debug_loc    00000172  00000000  00000000  00001716  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000028  00000000  00000000  00001888  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -56,43 +58,405 @@ Disassembly of section .text:
   2c:	d4 e0       	ldi	r29, 0x04	; 4
   2e:	de bf       	out	0x3e, r29	; 62
   30:	cd bf       	out	0x3d, r28	; 61
-  32:	02 d0       	rcall	.+4      	; 0x38 <main>
-  34:	0e c0       	rjmp	.+28     	; 0x52 <_exit>
+  32:	a5 d0       	rcall	.+330    	; 0x17e <main>
+  34:	bc c0       	rjmp	.+376    	; 0x1ae <_exit>
 
 00000036 <__bad_interrupt>:
   36:	e4 cf       	rjmp	.-56     	; 0x0 <__vectors>
 
-00000038 <main>:
-#include <avr/io.h>
+00000038 <_Z6EEOpenv>:
+#define TWI_Read_ACK	(1<<TWINT)|(1<<TWEA)|(1<<TWEN)
+
+void EEOpen()
+{
+	//Set up TWI Module
+	TWSR=0x00; 
+  38:	11 b8       	out	0x01, r1	; 1
+	TWBR= 32;
+  3a:	80 e2       	ldi	r24, 0x20	; 32
+  3c:	80 b9       	out	0x00, r24	; 0
+	TWCR=(1<<TWINT)|(1<<TWEN);
+  3e:	84 e8       	ldi	r24, 0x84	; 132
+  40:	86 bf       	out	0x36, r24	; 54
+  42:	08 95       	ret
+
+00000044 <_Z11EEWriteBytejh>:
+}
+uint8_t EEWriteByte(uint16_t address,uint8_t data)
+{
+	TWCR=(1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
+  44:	24 ea       	ldi	r18, 0xA4	; 164
+  46:	26 bf       	out	0x36, r18	; 54
+	while((TWCR & 0x80)==0x00);
+  48:	06 b6       	in	r0, 0x36	; 54
+  4a:	07 fe       	sbrs	r0, 7
+  4c:	fd cf       	rjmp	.-6      	; 0x48 <_Z11EEWriteBytejh+0x4>
+	if((TWSR & 0xF8) != 0x08)
+  4e:	21 b1       	in	r18, 0x01	; 1
+  50:	28 7f       	andi	r18, 0xF8	; 248
+  52:	28 30       	cpi	r18, 0x08	; 8
+  54:	11 f0       	breq	.+4      	; 0x5a <_Z11EEWriteBytejh+0x16>
+		return TWSR;
+  56:	81 b1       	in	r24, 0x01	; 1
+  58:	08 95       	ret
+
+	//Now write SLA+W
+	//EEPROM @ 00h
+	TWDR=0b10100000;	
+  5a:	20 ea       	ldi	r18, 0xA0	; 160
+  5c:	23 b9       	out	0x03, r18	; 3
+
+	//Initiate Transfer
+	TWCR=TWI_Clear_TWINT; 
+  5e:	24 e8       	ldi	r18, 0x84	; 132
+  60:	26 bf       	out	0x36, r18	; 54
+
+	//Poll Till Done
+	while((TWCR & 0x80)==0x00);
+  62:	06 b6       	in	r0, 0x36	; 54
+  64:	07 fe       	sbrs	r0, 7
+  66:	fd cf       	rjmp	.-6      	; 0x62 <_Z11EEWriteBytejh+0x1e>
+		
+	if((TWSR&0xF8) !=0x18)
+  68:	21 b1       	in	r18, 0x01	; 1
+  6a:	28 7f       	andi	r18, 0xF8	; 248
+  6c:	28 31       	cpi	r18, 0x18	; 24
+  6e:	11 f0       	breq	.+4      	; 0x74 <_Z11EEWriteBytejh+0x30>
+		return TWSR;
+  70:	81 b1       	in	r24, 0x01	; 1
+  72:	08 95       	ret
+	//Now write ADDRH
+	TWDR=(address>>8);
+  74:	93 b9       	out	0x03, r25	; 3
+
+	//Initiate Transfer
+	TWCR=TWI_Clear_TWINT;
+  76:	94 e8       	ldi	r25, 0x84	; 132
+  78:	96 bf       	out	0x36, r25	; 54
+	
+	while((TWCR & 0x80)==0x00);	
+  7a:	06 b6       	in	r0, 0x36	; 54
+  7c:	07 fe       	sbrs	r0, 7
+  7e:	fd cf       	rjmp	.-6      	; 0x7a <_Z11EEWriteBytejh+0x36>
+
+	//Check status
+	if((TWSR & 0xF8) != 0x28)
+  80:	91 b1       	in	r25, 0x01	; 1
+  82:	98 7f       	andi	r25, 0xF8	; 248
+  84:	98 32       	cpi	r25, 0x28	; 40
+  86:	11 f0       	breq	.+4      	; 0x8c <_Z11EEWriteBytejh+0x48>
+		return TWSR;
+  88:	81 b1       	in	r24, 0x01	; 1
+  8a:	08 95       	ret
+
+	//Now write ADDRL
+	TWDR=(address);
+  8c:	83 b9       	out	0x03, r24	; 3
+
+	//Initiate Transfer
+	TWCR=TWI_Clear_TWINT;
+  8e:	84 e8       	ldi	r24, 0x84	; 132
+  90:	86 bf       	out	0x36, r24	; 54
+	
+	while((TWCR & 0x80)==0x00);	
+  92:	06 b6       	in	r0, 0x36	; 54
+  94:	07 fe       	sbrs	r0, 7
+  96:	fd cf       	rjmp	.-6      	; 0x92 <_Z11EEWriteBytejh+0x4e>
+
+	//Check status
+	if((TWSR & 0xF8) != 0x28)
+  98:	81 b1       	in	r24, 0x01	; 1
+  9a:	88 7f       	andi	r24, 0xF8	; 248
+  9c:	88 32       	cpi	r24, 0x28	; 40
+  9e:	11 f0       	breq	.+4      	; 0xa4 <_Z11EEWriteBytejh+0x60>
+		return TWSR;
+  a0:	81 b1       	in	r24, 0x01	; 1
+  a2:	08 95       	ret
+
+	//Now write DATA
+	TWDR=(data);
+  a4:	63 b9       	out	0x03, r22	; 3
+
+	//Initiate Transfer
+	TWCR=(1<<TWINT)|(1<<TWEN);
+  a6:	84 e8       	ldi	r24, 0x84	; 132
+  a8:	86 bf       	out	0x36, r24	; 54
+
+	//Poll Till Done
+	while((TWCR & 0x80)==0x00);	
+  aa:	06 b6       	in	r0, 0x36	; 54
+  ac:	07 fe       	sbrs	r0, 7
+  ae:	fd cf       	rjmp	.-6      	; 0xaa <_Z11EEWriteBytejh+0x66>
+
+	//Check status
+	if((TWSR & 0xF8) != 0x28)
+  b0:	81 b1       	in	r24, 0x01	; 1
+  b2:	88 7f       	andi	r24, 0xF8	; 248
+  b4:	88 32       	cpi	r24, 0x28	; 40
+  b6:	11 f0       	breq	.+4      	; 0xbc <_Z11EEWriteBytejh+0x78>
+		return TWSR;
+  b8:	81 b1       	in	r24, 0x01	; 1
+  ba:	08 95       	ret
+
+	//Put Stop Condition on bus
+	TWCR=(1<<TWINT)|(1<<TWEN)|(1<<TWSTO);
+  bc:	84 e9       	ldi	r24, 0x94	; 148
+  be:	86 bf       	out	0x36, r24	; 54
+	
+	//Wait for STOP to finish
+	while(TWCR & (1<<TWSTO));
+  c0:	06 b6       	in	r0, 0x36	; 54
+  c2:	04 fc       	sbrc	r0, 4
+  c4:	fd cf       	rjmp	.-6      	; 0xc0 <_Z11EEWriteBytejh+0x7c>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  c6:	8f eb       	ldi	r24, 0xBF	; 191
+  c8:	9d e5       	ldi	r25, 0x5D	; 93
+  ca:	01 97       	sbiw	r24, 0x01	; 1
+  cc:	f1 f7       	brne	.-4      	; 0xca <_Z11EEWriteBytejh+0x86>
+  ce:	00 c0       	rjmp	.+0      	; 0xd0 <_Z11EEWriteBytejh+0x8c>
+  d0:	00 00       	nop
+
+	//Wait untill Writing is complete
+	_delay_ms(12);
+
+	//Return TRUE
+	return 1;
+  d2:	81 e0       	ldi	r24, 0x01	; 1
+
+}
+  d4:	08 95       	ret
+
+000000d6 <_Z10EEReadBytej>:
+{
+	uint8_t data;
+
+	//Initiate a Dummy Write Sequence to start Random Read
+		//Put Start Condition on TWI Bus
+		TWCR=(1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
+  d6:	24 ea       	ldi	r18, 0xA4	; 164
+  d8:	26 bf       	out	0x36, r18	; 54
+
+		//Poll Till Done
+		while((TWCR & 0x80)==0x00);	
+  da:	06 b6       	in	r0, 0x36	; 54
+  dc:	07 fe       	sbrs	r0, 7
+  de:	fd cf       	rjmp	.-6      	; 0xda <_Z10EEReadBytej+0x4>
+
+		//Check status
+		if((TWSR & 0xF8) != 0x08)
+  e0:	21 b1       	in	r18, 0x01	; 1
+  e2:	28 7f       	andi	r18, 0xF8	; 248
+  e4:	28 30       	cpi	r18, 0x08	; 8
+  e6:	11 f0       	breq	.+4      	; 0xec <_Z10EEReadBytej+0x16>
+			return TWSR;
+  e8:	81 b1       	in	r24, 0x01	; 1
+  ea:	08 95       	ret
+
+		//Now write SLA+W
+		//EEPROM @ 00h
+		TWDR=0b10100000;	
+  ec:	20 ea       	ldi	r18, 0xA0	; 160
+  ee:	23 b9       	out	0x03, r18	; 3
+
+		//Initiate Transfer
+		TWCR=(1<<TWINT)|(1<<TWEN);
+  f0:	24 e8       	ldi	r18, 0x84	; 132
+  f2:	26 bf       	out	0x36, r18	; 54
+
+		//Poll Till Done
+		while((TWCR & 0x80)==0x00);	
+  f4:	06 b6       	in	r0, 0x36	; 54
+  f6:	07 fe       	sbrs	r0, 7
+  f8:	fd cf       	rjmp	.-6      	; 0xf4 <_Z10EEReadBytej+0x1e>
+		
+
+	//Now write ADDRH
+	TWDR=(address>>8);
+  fa:	93 b9       	out	0x03, r25	; 3
+
+	//Initiate Transfer
+	TWCR=(1<<TWINT)|(1<<TWEN);
+  fc:	94 e8       	ldi	r25, 0x84	; 132
+  fe:	96 bf       	out	0x36, r25	; 54
+
+	//Poll Till Done
+	while((TWCR & 0x80)==0x00);	
+ 100:	06 b6       	in	r0, 0x36	; 54
+ 102:	07 fe       	sbrs	r0, 7
+ 104:	fd cf       	rjmp	.-6      	; 0x100 <_Z10EEReadBytej+0x2a>
+
+	//Check status
+	if((TWSR & 0xF8) != 0x28)
+ 106:	91 b1       	in	r25, 0x01	; 1
+ 108:	98 7f       	andi	r25, 0xF8	; 248
+ 10a:	98 32       	cpi	r25, 0x28	; 40
+ 10c:	11 f0       	breq	.+4      	; 0x112 <_Z10EEReadBytej+0x3c>
+		return TWSR;
+ 10e:	81 b1       	in	r24, 0x01	; 1
+ 110:	08 95       	ret
+
+	//Now write ADDRL
+	TWDR=(address);
+ 112:	83 b9       	out	0x03, r24	; 3
+
+	//Initiate Transfer
+	TWCR=(1<<TWINT)|(1<<TWEN);
+ 114:	84 e8       	ldi	r24, 0x84	; 132
+ 116:	86 bf       	out	0x36, r24	; 54
+
+	//Poll Till Done
+	while((TWCR & 0x80)==0x00);	
+ 118:	06 b6       	in	r0, 0x36	; 54
+ 11a:	07 fe       	sbrs	r0, 7
+ 11c:	fd cf       	rjmp	.-6      	; 0x118 <_Z10EEReadBytej+0x42>
+
+	//Check status
+	if((TWSR & 0xF8) != 0x28)
+ 11e:	81 b1       	in	r24, 0x01	; 1
+ 120:	88 7f       	andi	r24, 0xF8	; 248
+ 122:	88 32       	cpi	r24, 0x28	; 40
+ 124:	11 f0       	breq	.+4      	; 0x12a <_Z10EEReadBytej+0x54>
+		return TWSR;
+ 126:	81 b1       	in	r24, 0x01	; 1
+ 128:	08 95       	ret
+	//*************************DUMMY WRITE SEQUENCE END **********************
+
+
+	
+	//Put Start Condition on TWI Bus
+	TWCR=(1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
+ 12a:	84 ea       	ldi	r24, 0xA4	; 164
+ 12c:	86 bf       	out	0x36, r24	; 54
+
+	//Poll Till Done
+	while((TWCR & 0x80)==0x00);	
+ 12e:	06 b6       	in	r0, 0x36	; 54
+ 130:	07 fe       	sbrs	r0, 7
+ 132:	fd cf       	rjmp	.-6      	; 0x12e <_Z10EEReadBytej+0x58>
+
+	//Check status
+	if((TWSR & 0xF8) != 0x10)
+ 134:	81 b1       	in	r24, 0x01	; 1
+ 136:	88 7f       	andi	r24, 0xF8	; 248
+ 138:	80 31       	cpi	r24, 0x10	; 16
+ 13a:	11 f0       	breq	.+4      	; 0x140 <_Z10EEReadBytej+0x6a>
+		return TWSR;
+ 13c:	81 b1       	in	r24, 0x01	; 1
+ 13e:	08 95       	ret
+
+	//Now write SLA+R
+	//EEPROM @ 00h
+	TWDR=0b10100001;	
+ 140:	81 ea       	ldi	r24, 0xA1	; 161
+ 142:	83 b9       	out	0x03, r24	; 3
+
+	//Initiate Transfer
+	TWCR=(1<<TWINT)|(1<<TWEN);
+ 144:	84 e8       	ldi	r24, 0x84	; 132
+ 146:	86 bf       	out	0x36, r24	; 54
+
+	//Poll Till Done
+	while((TWCR & 0x80)==0x00);	
+ 148:	06 b6       	in	r0, 0x36	; 54
+ 14a:	07 fe       	sbrs	r0, 7
+ 14c:	fd cf       	rjmp	.-6      	; 0x148 <_Z10EEReadBytej+0x72>
+
+	//Check status
+	if((TWSR & 0xF8) != 0x40)
+ 14e:	81 b1       	in	r24, 0x01	; 1
+ 150:	88 7f       	andi	r24, 0xF8	; 248
+ 152:	80 34       	cpi	r24, 0x40	; 64
+ 154:	11 f0       	breq	.+4      	; 0x15a <_Z10EEReadBytej+0x84>
+		return TWSR;
+ 156:	81 b1       	in	r24, 0x01	; 1
+ 158:	08 95       	ret
+
+	//Now enable Reception of data by clearing TWINT
+	TWCR=(1<<TWINT)|(1<<TWEN);
+ 15a:	84 e8       	ldi	r24, 0x84	; 132
+ 15c:	86 bf       	out	0x36, r24	; 54
+
+	//Wait till done
+	while((TWCR & 0x80)==0x00);	
+ 15e:	06 b6       	in	r0, 0x36	; 54
+ 160:	07 fe       	sbrs	r0, 7
+ 162:	fd cf       	rjmp	.-6      	; 0x15e <_Z10EEReadBytej+0x88>
+
+	//Check status
+	if((TWSR & 0xF8) != 0x58)
+ 164:	81 b1       	in	r24, 0x01	; 1
+ 166:	88 7f       	andi	r24, 0xF8	; 248
+ 168:	88 35       	cpi	r24, 0x58	; 88
+ 16a:	11 f0       	breq	.+4      	; 0x170 <_Z10EEReadBytej+0x9a>
+		return TWSR;
+ 16c:	81 b1       	in	r24, 0x01	; 1
+ 16e:	08 95       	ret
+
+	//Read the data
+	data=TWDR;
+ 170:	83 b1       	in	r24, 0x03	; 3
+
+	//Put Stop Condition on bus
+	TWCR=(1<<TWINT)|(1<<TWEN)|(1<<TWSTO);
+ 172:	94 e9       	ldi	r25, 0x94	; 148
+ 174:	96 bf       	out	0x36, r25	; 54
+	
+	//Wait for STOP to finish
+	while(TWCR & (1<<TWSTO));
+ 176:	06 b6       	in	r0, 0x36	; 54
+ 178:	04 fc       	sbrc	r0, 4
+ 17a:	fd cf       	rjmp	.-6      	; 0x176 <_Z10EEReadBytej+0xa0>
+
+	//Return TRUE
+	return data;
+}
+ 17c:	08 95       	ret
+
+0000017e <main>:
 #include <util/delay.h>
 #include <avr/sfr_defs.h>
+#include "24c64.h"
 int main()
 {
-	DDRD	= 0xFF;
-  38:	8f ef       	ldi	r24, 0xFF	; 255
-  3a:	81 bb       	out	0x11, r24	; 17
-	
-	TWSR	= 0;
-  3c:	11 b8       	out	0x01, r1	; 1
-	TWBR	= 32; // Bit rate
-  3e:	80 e2       	ldi	r24, 0x20	; 32
-  40:	80 b9       	out	0x00, r24	; 0
-	
-	TWCR	= (1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
-  42:	84 ea       	ldi	r24, 0xA4	; 164
-  44:	86 bf       	out	0x36, r24	; 54
-	while(!(TWCR & (1<<TWINT)));
-  46:	06 b6       	in	r0, 0x36	; 54
-  48:	07 fe       	sbrs	r0, 7
-  4a:	fd cf       	rjmp	.-6      	; 0x46 <__SREG__+0x7>
-	
-	PORTD = 0xFF;
-  4c:	8f ef       	ldi	r24, 0xFF	; 255
-  4e:	82 bb       	out	0x12, r24	; 18
-  50:	ff cf       	rjmp	.-2      	; 0x50 <__SREG__+0x11>
+	DDRD = 0xFF;
+ 17e:	8f ef       	ldi	r24, 0xFF	; 255
+ 180:	81 bb       	out	0x11, r24	; 17
+	EEOpen();
+ 182:	5a df       	rcall	.-332    	; 0x38 <_Z6EEOpenv>
+	EEWriteByte(0x000F, 7);
+ 184:	67 e0       	ldi	r22, 0x07	; 7
+ 186:	8f e0       	ldi	r24, 0x0F	; 15
+ 188:	90 e0       	ldi	r25, 0x00	; 0
+ 18a:	5c df       	rcall	.-328    	; 0x44 <_Z11EEWriteBytejh>
+	if(EEReadByte(0x000F) == 7)
+ 18c:	8f e0       	ldi	r24, 0x0F	; 15
+ 18e:	90 e0       	ldi	r25, 0x00	; 0
+ 190:	a2 df       	rcall	.-188    	; 0xd6 <_Z10EEReadBytej>
+ 192:	87 30       	cpi	r24, 0x07	; 7
+ 194:	59 f4       	brne	.+22     	; 0x1ac <main+0x2e>
+ 196:	2f ef       	ldi	r18, 0xFF	; 255
+ 198:	80 e7       	ldi	r24, 0x70	; 112
+ 19a:	92 e0       	ldi	r25, 0x02	; 2
+ 19c:	21 50       	subi	r18, 0x01	; 1
+ 19e:	80 40       	sbci	r24, 0x00	; 0
+ 1a0:	90 40       	sbci	r25, 0x00	; 0
+ 1a2:	e1 f7       	brne	.-8      	; 0x19c <main+0x1e>
+ 1a4:	00 c0       	rjmp	.+0      	; 0x1a6 <main+0x28>
+ 1a6:	00 00       	nop
+	{
+		_delay_ms(100);
+		PORTD = 0xFF;
+ 1a8:	8f ef       	ldi	r24, 0xFF	; 255
+ 1aa:	82 bb       	out	0x12, r24	; 18
+ 1ac:	ff cf       	rjmp	.-2      	; 0x1ac <main+0x2e>
 
-00000052 <_exit>:
-  52:	f8 94       	cli
+000001ae <_exit>:
+ 1ae:	f8 94       	cli
 
-00000054 <__stop_program>:
-  54:	ff cf       	rjmp	.-2      	; 0x54 <__stop_program>
+000001b0 <__stop_program>:
+ 1b0:	ff cf       	rjmp	.-2      	; 0x1b0 <__stop_program>

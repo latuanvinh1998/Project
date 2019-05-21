@@ -2,16 +2,16 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/sfr_defs.h>
+#include "24c64.h"
 int main()
 {
-	DDRD	= 0xFF;
-	
-	TWSR	= 0;
-	TWBR	= 32; // Bit rate
-	
-	TWCR	= (1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
-	while(!(TWCR & (1<<TWINT)));
-	
-	PORTD = 0xFF;
+	DDRD = 0xFF;
+	EEOpen();
+	EEWriteByte(0x000F, 7);
+	if(EEReadByte(0x000F) == 7)
+	{
+		_delay_ms(100);
+		PORTD = 0xFF;
+	}
 	while(1);
 }

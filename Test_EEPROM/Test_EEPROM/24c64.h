@@ -29,15 +29,8 @@ void EEOpen()
 {
 	//Set up TWI Module
 	TWSR=0x00; 
-	TWBR=_100K;
+	TWBR= 32;
 	TWCR=(1<<TWINT)|(1<<TWEN);
-}
-void Test()
-{
-	TWCR=(1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
-	while((TWCR & 0x80)==0x00);
-	_delay_ms(100);
-	PORTD = 0xFF;
 }
 uint8_t EEWriteByte(uint16_t address,uint8_t data)
 {
@@ -105,7 +98,7 @@ uint8_t EEWriteByte(uint16_t address,uint8_t data)
 	_delay_ms(12);
 
 	//Return TRUE
-	return 0;
+	return 1;
 
 }
 
