@@ -16,6 +16,7 @@
 #define WRSR  1
 #define READ  3
 #define WRITE 2
+#define HOLD 1
 
 #define MOSI 3
 #define MISO 4
@@ -34,7 +35,13 @@ void Init();
 char SPI_Read();
 void SPI_Write();
 uint8_t ReadDataByte(uint16_t address);
-void WriteDataByte(uint16_t address, uint8_t data);
+void WriteDataByte(uint16_t address, char data);
+void ReadDataPage(uint16_t address, char *buffer);
+void WriteDataPage(uint16_t address, char *buffer);
+void ReadDataStream(uint16_t address, char *buffer);
+void WriteDataStream(uint16_t address, char *buffer);
+void SetMode(uint8_t mode);
+void SetUp(uint8_t mode, uint8_t action, uint16_t address);
 
 
 

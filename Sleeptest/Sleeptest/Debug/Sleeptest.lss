@@ -3,37 +3,37 @@ Sleeptest.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000000ba  00000000  00000000  00000054  2**1
+  0 .text         000000d0  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  0000010e  2**0
+  1 .data         00000000  00800060  00800060  00000124  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  0000010e  2**0
+  2 .comment      00000030  00000000  00000000  00000124  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000140  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000154  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000028  00000000  00000000  0000017c  2**0
+  4 .debug_aranges 00000030  00000000  00000000  00000190  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000005fa  00000000  00000000  000001a4  2**0
+  5 .debug_info   00000610  00000000  00000000  000001c0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000053f  00000000  00000000  0000079e  2**0
+  6 .debug_abbrev 00000546  00000000  00000000  000007d0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000002d0  00000000  00000000  00000cdd  2**0
+  7 .debug_line   000002a4  00000000  00000000  00000d16  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000044  00000000  00000000  00000fb0  2**2
+  8 .debug_frame  00000070  00000000  00000000  00000fbc  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000344  00000000  00000000  00000ff4  2**0
+  9 .debug_str    0000034f  00000000  00000000  0000102c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000000cc  00000000  00000000  00001338  2**0
+ 10 .debug_loc    00000122  00000000  00000000  0000137b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000018  00000000  00000000  00001404  2**0
+ 11 .debug_ranges 00000020  00000000  00000000  0000149d  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
    0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
-   2:	4a c0       	rjmp	.+148    	; 0x98 <__vector_1>
-   4:	18 c0       	rjmp	.+48     	; 0x36 <__bad_interrupt>
+   2:	32 c0       	rjmp	.+100    	; 0x68 <__vector_1>
+   4:	4b c0       	rjmp	.+150    	; 0x9c <__vector_2>
    6:	17 c0       	rjmp	.+46     	; 0x36 <__bad_interrupt>
    8:	16 c0       	rjmp	.+44     	; 0x36 <__bad_interrupt>
    a:	15 c0       	rjmp	.+42     	; 0x36 <__bad_interrupt>
@@ -59,7 +59,7 @@ Disassembly of section .text:
   2e:	de bf       	out	0x3e, r29	; 62
   30:	cd bf       	out	0x3d, r28	; 61
   32:	02 d0       	rcall	.+4      	; 0x38 <main>
-  34:	40 c0       	rjmp	.+128    	; 0xb6 <_exit>
+  34:	4b c0       	rjmp	.+150    	; 0xcc <_exit>
 
 00000036 <__bad_interrupt>:
   36:	e4 cf       	rjmp	.-56     	; 0x0 <__vectors>
@@ -70,127 +70,130 @@ Disassembly of section .text:
 
 int main(void)
 {
-	DDRC = 0xFF;     
+	DDRC = 0xFF;
   38:	8f ef       	ldi	r24, 0xFF	; 255
   3a:	84 bb       	out	0x14, r24	; 20
 	DDRD = 0x00;
   3c:	11 ba       	out	0x11, r1	; 17
 	PORTD = 0x00;
   3e:	12 ba       	out	0x12, r1	; 18
-	DDRB = 0xFF;
-  40:	87 bb       	out	0x17, r24	; 23
+	MCUCR|=(1<<ISC11)|(1<<ISC01); //c? 2 ng?t là ng?t c?nh xu?ng
+  40:	85 b7       	in	r24, 0x35	; 53
+  42:	8a 60       	ori	r24, 0x0A	; 10
+  44:	85 bf       	out	0x35, r24	; 53
+	GICR    |=(1<<INT1)|(1<<INT0);
+  46:	8b b7       	in	r24, 0x3b	; 59
+  48:	80 6c       	ori	r24, 0xC0	; 192
+  4a:	8b bf       	out	0x3b, r24	; 59
+	// infinite main loop
+	sei();
+  4c:	78 94       	sei
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  42:	2f e9       	ldi	r18, 0x9F	; 159
-  44:	36 e8       	ldi	r19, 0x86	; 134
-  46:	81 e0       	ldi	r24, 0x01	; 1
-  48:	21 50       	subi	r18, 0x01	; 1
-  4a:	30 40       	sbci	r19, 0x00	; 0
-  4c:	80 40       	sbci	r24, 0x00	; 0
-  4e:	e1 f7       	brne	.-8      	; 0x48 <__SREG__+0x9>
-  50:	00 c0       	rjmp	.+0      	; 0x52 <__SREG__+0x13>
-  52:	00 00       	nop
-	_delay_ms(500);
-	GICR |= (1 << INT0);
-  54:	8b b7       	in	r24, 0x3b	; 59
-  56:	80 64       	ori	r24, 0x40	; 64
-  58:	8b bf       	out	0x3b, r24	; 59
-	// level interrupt INT0 (low level)
-	MCUCR &= ~((1 << ISC01) | (1 << ISC00));
-  5a:	85 b7       	in	r24, 0x35	; 53
-  5c:	8c 7f       	andi	r24, 0xFC	; 252
-  5e:	85 bf       	out	0x35, r24	; 53
-	// infinite main loop
+  4e:	2f e9       	ldi	r18, 0x9F	; 159
+  50:	86 e8       	ldi	r24, 0x86	; 134
+  52:	91 e0       	ldi	r25, 0x01	; 1
+  54:	21 50       	subi	r18, 0x01	; 1
+  56:	80 40       	sbci	r24, 0x00	; 0
+  58:	90 40       	sbci	r25, 0x00	; 0
+  5a:	e1 f7       	brne	.-8      	; 0x54 <__SREG__+0x15>
+  5c:	00 c0       	rjmp	.+0      	; 0x5e <__SREG__+0x1f>
+  5e:	00 00       	nop
 	while (1)
 	{
-		PORTC = 0x00;
 		_delay_ms(500);
-		PORTC = 0xFF;
-  60:	9f ef       	ldi	r25, 0xFF	; 255
-	MCUCR &= ~((1 << ISC01) | (1 << ISC00));
+		PORTC = ~PORTC;
+  60:	85 b3       	in	r24, 0x15	; 21
+  62:	80 95       	com	r24
+  64:	85 bb       	out	0x15, r24	; 21
+  66:	f3 cf       	rjmp	.-26     	; 0x4e <__SREG__+0xf>
 
-	// infinite main loop
-	while (1)
-	{
-		PORTC = 0x00;
-  62:	15 ba       	out	0x15, r1	; 21
-  64:	2f e9       	ldi	r18, 0x9F	; 159
-  66:	36 e8       	ldi	r19, 0x86	; 134
-  68:	81 e0       	ldi	r24, 0x01	; 1
-  6a:	21 50       	subi	r18, 0x01	; 1
-  6c:	30 40       	sbci	r19, 0x00	; 0
-  6e:	80 40       	sbci	r24, 0x00	; 0
-  70:	e1 f7       	brne	.-8      	; 0x6a <__SREG__+0x2b>
-  72:	00 c0       	rjmp	.+0      	; 0x74 <__SREG__+0x35>
-  74:	00 00       	nop
-		_delay_ms(500);
-		PORTC = 0xFF;
-  76:	95 bb       	out	0x15, r25	; 21
-	PORTB = 0x00;
-  78:	18 ba       	out	0x18, r1	; 24
-		// enable external interrup
-
-		// set sleep mode
-		set_sleep_mode(SLEEP_MODE_PWR_DOWN);
-  7a:	85 b7       	in	r24, 0x35	; 53
-  7c:	8f 78       	andi	r24, 0x8F	; 143
-  7e:	80 62       	ori	r24, 0x20	; 32
-  80:	85 bf       	out	0x35, r24	; 53
-
-		// sleep_mode() has a possible race condition
-		sleep_enable();
-  82:	85 b7       	in	r24, 0x35	; 53
-  84:	80 68       	ori	r24, 0x80	; 128
-  86:	85 bf       	out	0x35, r24	; 53
-		sei();
-  88:	78 94       	sei
-		sleep_cpu();
-  8a:	88 95       	sleep
-		sleep_disable();
-  8c:	85 b7       	in	r24, 0x35	; 53
-  8e:	8f 77       	andi	r24, 0x7F	; 127
-  90:	85 bf       	out	0x35, r24	; 53
-
-		// waking up...
-		// disable external interrupt here, in case the external low pulse is too long
-		PORTB = 0xFF;
-  92:	98 bb       	out	0x18, r25	; 24
-		// disable all interrupts
-		cli();
-  94:	f8 94       	cli
-  96:	e5 cf       	rjmp	.-54     	; 0x62 <__SREG__+0x23>
-
-00000098 <__vector_1>:
+00000068 <__vector_1>:
 	}
 }
 
 
 ISR(INT0_vect)
 {
-  98:	1f 92       	push	r1
-  9a:	0f 92       	push	r0
-  9c:	0f b6       	in	r0, 0x3f	; 63
-  9e:	0f 92       	push	r0
-  a0:	11 24       	eor	r1, r1
-  a2:	8f 93       	push	r24
+  68:	1f 92       	push	r1
+  6a:	0f 92       	push	r0
+  6c:	0f b6       	in	r0, 0x3f	; 63
+  6e:	0f 92       	push	r0
+  70:	11 24       	eor	r1, r1
+  72:	2f 93       	push	r18
+  74:	8f 93       	push	r24
+  76:	9f 93       	push	r25
 	// ISR might be empty, but is necessary nonetheless
-	PORTC = ~PORTC;    // debugging
-  a4:	85 b3       	in	r24, 0x15	; 21
-  a6:	80 95       	com	r24
-  a8:	85 bb       	out	0x15, r24	; 21
-  aa:	8f 91       	pop	r24
-  ac:	0f 90       	pop	r0
-  ae:	0f be       	out	0x3f, r0	; 63
-  b0:	0f 90       	pop	r0
-  b2:	1f 90       	pop	r1
-  b4:	18 95       	reti
+	PORTC = 0x00;    // debugging
+  78:	15 ba       	out	0x15, r1	; 21
+  7a:	2f e3       	ldi	r18, 0x3F	; 63
+  7c:	8d e0       	ldi	r24, 0x0D	; 13
+  7e:	93 e0       	ldi	r25, 0x03	; 3
+  80:	21 50       	subi	r18, 0x01	; 1
+  82:	80 40       	sbci	r24, 0x00	; 0
+  84:	90 40       	sbci	r25, 0x00	; 0
+  86:	e1 f7       	brne	.-8      	; 0x80 <__vector_1+0x18>
+  88:	00 c0       	rjmp	.+0      	; 0x8a <__vector_1+0x22>
+  8a:	00 00       	nop
+	_delay_ms(1000);
+}
+  8c:	9f 91       	pop	r25
+  8e:	8f 91       	pop	r24
+  90:	2f 91       	pop	r18
+  92:	0f 90       	pop	r0
+  94:	0f be       	out	0x3f, r0	; 63
+  96:	0f 90       	pop	r0
+  98:	1f 90       	pop	r1
+  9a:	18 95       	reti
 
-000000b6 <_exit>:
-  b6:	f8 94       	cli
+0000009c <__vector_2>:
+ISR(INT1_vect)
+{
+  9c:	1f 92       	push	r1
+  9e:	0f 92       	push	r0
+  a0:	0f b6       	in	r0, 0x3f	; 63
+  a2:	0f 92       	push	r0
+  a4:	11 24       	eor	r1, r1
+  a6:	8f 93       	push	r24
+			// enable external interrup
 
-000000b8 <__stop_program>:
-  b8:	ff cf       	rjmp	.-2      	; 0xb8 <__stop_program>
+			// set sleep mode
+			set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+  a8:	85 b7       	in	r24, 0x35	; 53
+  aa:	8f 78       	andi	r24, 0x8F	; 143
+  ac:	80 62       	ori	r24, 0x20	; 32
+  ae:	85 bf       	out	0x35, r24	; 53
+
+			// sleep_mode() has a possible race condition
+			sleep_enable();
+  b0:	85 b7       	in	r24, 0x35	; 53
+  b2:	80 68       	ori	r24, 0x80	; 128
+  b4:	85 bf       	out	0x35, r24	; 53
+			sleep_cpu();
+  b6:	88 95       	sleep
+			sleep_disable();
+  b8:	85 b7       	in	r24, 0x35	; 53
+  ba:	8f 77       	andi	r24, 0x7F	; 127
+  bc:	85 bf       	out	0x35, r24	; 53
+
+			// waking up...
+			// disable external interrupt here, in case the external low pulse is too long
+			// disable all interrupts
+			cli();
+  be:	f8 94       	cli
+  c0:	8f 91       	pop	r24
+  c2:	0f 90       	pop	r0
+  c4:	0f be       	out	0x3f, r0	; 63
+  c6:	0f 90       	pop	r0
+  c8:	1f 90       	pop	r1
+  ca:	18 95       	reti
+
+000000cc <_exit>:
+  cc:	f8 94       	cli
+
+000000ce <__stop_program>:
+  ce:	ff cf       	rjmp	.-2      	; 0xce <__stop_program>
