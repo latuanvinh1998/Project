@@ -3,15 +3,17 @@
 #include <util/delay.h>
 #include <avr/sfr_defs.h>
 #include "24c64.h"
+#include "USART.h"
+
+
 int main()
 {
-	DDRD = 0xFF;
 	EEOpen();
-	EEWriteByte(0x000F, 7);
-	if(EEReadByte(0x000F) == 7)
+	USART_Init();
+	EEWriteByte(0x000F, 'c');
+	while(1)
 	{
-		_delay_ms(100);
-		PORTD = 0xFF;
+		USART_Transmit(EEReadByte(0x000F));
+		_delay_ms(1000);
 	}
-	while(1);
 }

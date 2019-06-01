@@ -1,7 +1,13 @@
-#define F_CPU 8000000UL
-#include <avr/io.h>
-#include <util/delay.h>
+/*
+ * USART.h
+ *
+ * Created: 6/1/2019 3:41:13 PM
+ *  Author: Elite Phantom
+ */ 
 
+
+#ifndef USART_H_
+#define USART_H_
 void USART_Init(){
 	UBRRH = 0;
 	UBRRL = 51;
@@ -21,5 +27,7 @@ void USART_SendString(char *data){
 		i++;
 	}
 }
-int main(void){
-}
+
+
+
+#endif /* USART_H_ */
