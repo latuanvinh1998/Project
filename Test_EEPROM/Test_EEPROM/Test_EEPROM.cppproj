@@ -159,6 +159,12 @@
     <Compile Include="main.cpp">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="N5110.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="N5110.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="USART.h">
       <SubType>compile</SubType>
     </Compile>
