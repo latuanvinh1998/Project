@@ -1,5 +1,6 @@
 #define F_CPU 8000000UL
 #include <avr/io.h>
+#include <avr/sfr_defs.h>
 #include <util/delay.h>
 
 void USART_Init(){
@@ -21,5 +22,12 @@ void USART_SendString(char *data){
 		i++;
 	}
 }
-int main(void){
+int main(void)
+{
+	USART_Init();
+	while(1)
+	{
+		USART_Transmit('a');
+		_delay_ms(100);
+	}
 }
