@@ -39,9 +39,8 @@ void USART_SendString(char *data){
 struct node
 {
 	char data;
-	int *pointer; 
 	int amount;
-	node *next;
+	node *next[];
 };
 typedef struct node NODE;
 
@@ -53,31 +52,42 @@ NODE* CreateNode(char data, int amount)
 // 		return NULL;
 	n->data = data;
 	n->amount = amount;
-	n->next = NULL;
+	for (int i = 0; i < n->amount; i++)
+		n->next[i] = NULL;
 	return n;
 }
 
-NODE* CreateNode(NODE* &n, char data, int amount)
+void InsertNode(NODE*& root, char x, int y, int *array, int length)
 {
-	n->data = data;
-	n->amount = amount;
-	n->next = NULL;
-	return n;
+	if (root == NULL)
+	{
+		root = CreateNode(x, y);
+		return;
+	}
+	NODE* p = root;
+	int i;
+	for(i = 1 ; i < length; i++)
+		p = p->next[array[i]];
+	p->next[array[i - 1]] = CreateNode(x, y);
 }
 
-void add(NODE* &R, char Data, int Amount)
+NODE* Read(NODE* R, int* arr, int length)
 {
-	NODE *p = R;
-	p = p->next;
-	p = CreateNode(Data, Amount);
+	NODE* ptr = R;
+	int i;
+	for (i = 0; i < length; i++)
+		ptr = ptr->next[arr[i]];
+	return ptr;
 }
 
 int main(void)
 {
-	NODE *Root = CreateNode('a', 1);
-	add(Root, 'r', 1);
-	NODE *p = Root;
-// 	p = p->next;
+	int array[] = {0};
+	int arr[] = {1};
+	NODE *Root = CreateNode('a', 3);
+	InsertNode(Root, 'b', 1, array, 1);
+	InsertNode(Root, 'z', 1, arr, 1);
+	NODE *p =Read(Root, arr, 1);
 	USART_Init();
     while (1)
 	{
