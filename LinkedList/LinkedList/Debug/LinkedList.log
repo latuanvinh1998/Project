@@ -1,0 +1,4 @@
+﻿  LinkedList.cpp
+C:\Users\Elite Phantom\source\repos\LinkedList\LinkedList\LinkedList.cpp(14,14): warning C4200:  nonstandard extension used: zero-sized array in struct/union
+C:\Users\Elite Phantom\source\repos\LinkedList\LinkedList\LinkedList.cpp(14,14): message :  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  LinkedList.vcxproj -> C:\Users\Elite Phantom\source\repos\LinkedList\Debug\LinkedList.exe
