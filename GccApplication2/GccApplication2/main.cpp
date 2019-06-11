@@ -82,10 +82,8 @@ NODE* Read(NODE* R, int* arr, int length)
 
 int main(void)
 {
-	int array[] = {0};
-	int arr[] = {1};
+	int arr[] = {2};
 	NODE *Root = CreateNode('a', 3);
-	InsertNode(Root, 'b', 1, array, 1);
 	InsertNode(Root, 'z', 1, arr, 1);
 	NODE *p =Read(Root, arr, 1);
 	USART_Init();
